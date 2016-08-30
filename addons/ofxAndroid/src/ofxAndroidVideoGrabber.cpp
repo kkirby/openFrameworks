@@ -12,29 +12,6 @@
 #include "ofUtils.h"
 #include "ofVideoGrabber.h"
 
-struct ofxAndroidVideoGrabber::Data{
-	bool bIsFrameNew;
-	bool bGrabberInited;
-	bool bUsePixels;
-	int width;
-	int height;
-	ofPixelFormat internalPixelFormat;
-	bool bNewBackFrame;
-	ofPixels frontBuffer, backBuffer;
-	ofTexture texture;
-	jfloatArray matrixJava;
-	int cameraId;
-	bool appPaused;
-	bool newPixels;
-	int attemptFramerate;
-	jobject javaVideoGrabber;
-
-	Data();
-	~Data();
-	void onAppPause();
-	void onAppResume();
-	void loadTexture();
-};
 
 map<int,weak_ptr<ofxAndroidVideoGrabber::Data>> & instances(){
 	static auto * instances = new map<int,weak_ptr<ofxAndroidVideoGrabber::Data>>;
@@ -66,6 +43,7 @@ ofxAndroidVideoGrabber::Data::Data()
 ,newPixels(false)
 ,attemptFramerate(-1)
 ,bUsePixels(true)
+,bSetRecordingHint(true)
 ,javaVideoGrabber(nullptr){
 	JNIEnv *env = ofGetJNIEnv();
 
@@ -154,6 +132,7 @@ ofxAndroidVideoGrabber::~ofxAndroidVideoGrabber(){
 
 void ofxAndroidVideoGrabber::Data::onAppPause(){
 	appPaused = true;
+	texture.clear();
 	glDeleteTextures(1, &texture.texData.textureID);
 	texture.texData.textureID = 0;
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofPauseVideoGrabbers(): releasing textures";
@@ -167,13 +146,13 @@ void ofxAndroidVideoGrabber::Data::onAppResume(){
 		return;
 	}
 	jclass javaClass = getJavaClass();
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
 	loadTexture();
 
 	int texID= texture.texData.textureID;
 	int w=texture.texData.width;
 	int h=texture.texData.height;
-	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID);
+	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID,bUsePixels,bSetRecordingHint);
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofResumeVideoGrabbers(): textures allocated";
 	appPaused = false;
 }
@@ -226,7 +205,9 @@ void ofxAndroidVideoGrabber::update(){
 
 void ofxAndroidVideoGrabber::close(){
 	// Release texture
+	data->texture.clear();
 	glDeleteTextures(1, &data->texture.texData.textureID);
+	data->texture.texData.textureID = 0;
 
     JNIEnv *env = ofGetJNIEnv();
     jclass javaClass = getJavaClass();
@@ -290,9 +271,18 @@ bool ofxAndroidVideoGrabber::initCamera(){
 
 	jclass javaClass = getJavaClass();
 
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
 	if(data->javaVideoGrabber && javaInitGrabber){
-		env->CallVoidMethod(data->javaVideoGrabber,javaInitGrabber,data->width,data->height,data->attemptFramerate,data->texture.texData.textureID);
+		env->CallVoidMethod(
+			data->javaVideoGrabber,
+			javaInitGrabber,
+			data->width,
+			data->height,
+			data->attemptFramerate,
+			data->texture.texData.textureID,
+			data->bUsePixels,
+			data->bSetRecordingHint
+		);
 	} else {
 		ofLogError("ofxAndroidVideoGrabber") << "initGrabber(): couldn't get OFAndroidVideoGrabber init grabber method";
 		return false;
@@ -313,6 +303,10 @@ void ofxAndroidVideoGrabber::videoSettings(){
 
 void ofxAndroidVideoGrabber::setUsePixels(bool usePixels){
 	data->bUsePixels = usePixels;
+}
+
+void ofxAndroidVideoGrabber::setRecordingHint(bool setRecordingHint){
+	data->bSetRecordingHint = setRecordingHint;
 }
 
 ofPixels& ofxAndroidVideoGrabber::getPixels(){
@@ -492,8 +486,7 @@ ofPixelFormat ofxAndroidVideoGrabber::getPixelFormat() const{
 	inited = true;
  }
 
- void ConvertYUV2RGB(unsigned char *src0,unsigned char *src1,unsigned char *dst_ori,
-								  int width,int height)
+ void ConvertYUV2RGB(unsigned char *src0,unsigned char *src1,unsigned char *dst_ori,int width,int height)
  {
 	 register int y1,y2,u,v;
 	 register unsigned char *py1,*py2;
@@ -545,9 +538,7 @@ ofPixelFormat ofxAndroidVideoGrabber::getPixelFormat() const{
 		 py1+=   width;
 		 py2+=   width;
 	 }
-
-
-}
+ }
 /**
  * Converts semi-planar YUV420 as generated for camera preview into RGB565
  * format for use as an OpenGL ES texture. It assumes that both the input
