@@ -89,6 +89,8 @@ ifndef PLATFORM_LIB_SUBPATH
         PLATFORM_LIB_SUBPATH=msys2
     else ifeq ($(PLATFORM_OS),Android)
         PLATFORM_LIB_SUBPATH=android
+    else ifeq ($(PLATFORM_OS),iOS)
+        PLATFORM_LIB_SUBPATH=ios
     else ifeq ($(PLATFORM_OS),Darwin)
         PLATFORM_LIB_SUBPATH=osx
     else ifeq ($(PLATFORM_OS),emscripten)
