@@ -579,6 +579,7 @@ void ofShader::unloadGL(){
 }
 
 void ofShader::reloadGL(){
+	ofRemoveListener(ofxAndroidEvents().reloadGL,this,&ofShader::reloadGL);
 	auto source = shaders;
 	auto bindings = attributesBindingsCache;
 	shaders.clear();
