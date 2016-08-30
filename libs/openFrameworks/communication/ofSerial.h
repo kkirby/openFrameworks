@@ -4,13 +4,14 @@
 #include "ofConstants.h"
 #include "ofTypes.h"
 
-#if defined( TARGET_OSX ) || defined( TARGET_LINUX ) || defined (TARGET_ANDROID)
+#if defined( TARGET_OSX ) || defined( TARGET_LINUX ) || defined (TARGET_ANDROID) || defined (TARGET_OF_IOS)
 	#include <termios.h>
 #else
 	#include <winbase.h>
 	#include <tchar.h>
 	#include <iostream>
 	#include <string.h>
+	#include <devpropdef.h>
 	#include <setupapi.h>
 	#include <regstr.h>
 	/// \cond INTERNAL
