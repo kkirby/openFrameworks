@@ -144,7 +144,7 @@ endif
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 
-PLATFORM_LDFLAGS = -stdlib=$(MAC_OS_STD_LIB)
+PLATFORM_LDFLAGS = -stdlib=$(MAC_OS_STD_LIB) -rpath @executable_path
 
 #PLATFORM_LDFLAGS += -arch i386
 #PLATFORM_LDFLAGS += -F$(OF_LIBS_PATH)/glut/lib/osx/
@@ -385,13 +385,20 @@ afterplatform: $(TARGET_NAME)
 
 	@echo TARGET=$(TARGET)
 
+	@install_name_tool -change @executable_path/../Frameworks/GLUT.framework/Versions/A/GLUT @executable_path/GLUT.framework/Versions/A/GLUT $(TARGET)
 
 	@mv $(TARGET) bin/$(BIN_NAME).app/Contents/MacOS
 	
 ifneq ($(USE_FMOD),0)
 	@cp -r $(OF_EXPORT_PATH)/$(ABI_LIB_SUBPATH)/libs/* bin/$(BIN_NAME).app/Contents/MacOS
+	@cp -r $(OF_EXPORT_PATH)/$(ABI_LIB_SUBPATH)/Frameworks/* bin/$(BIN_NAME).app/Contents/MacOS
 endif
 	
+	
+ifdef PROJECT_AFTER_OSX
+	${PROJECT_AFTER_OSX}
+endif	
+
 	@echo
 	@echo "     compiling done"
 	@echo "     to launch the application"
