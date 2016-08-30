@@ -12,29 +12,6 @@
 #include "ofUtils.h"
 #include "ofVideoGrabber.h"
 
-struct ofxAndroidVideoGrabber::Data{
-	bool bIsFrameNew;
-	bool bGrabberInited;
-	bool bUsePixels;
-	int width;
-	int height;
-	ofPixelFormat internalPixelFormat;
-	bool bNewBackFrame;
-	ofPixels frontBuffer, backBuffer;
-	ofTexture texture;
-	jfloatArray matrixJava;
-	int cameraId;
-	bool appPaused;
-	bool newPixels;
-	int attemptFramerate;
-	jobject javaVideoGrabber;
-
-	Data();
-	~Data();
-	void onAppPause();
-	void onAppResume();
-	void loadTexture();
-};
 
 map<int,weak_ptr<ofxAndroidVideoGrabber::Data>> & instances(){
 	static auto * instances = new map<int,weak_ptr<ofxAndroidVideoGrabber::Data>>;
@@ -66,6 +43,7 @@ ofxAndroidVideoGrabber::Data::Data()
 ,newPixels(false)
 ,attemptFramerate(-1)
 ,bUsePixels(true)
+,bSetRecordingHint(true)
 ,javaVideoGrabber(nullptr){
 	JNIEnv *env = ofGetJNIEnv();
 
@@ -154,13 +132,13 @@ void ofxAndroidVideoGrabber::Data::onAppResume(){
 		return;
 	}
 	jclass javaClass = getJavaClass();
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
 	loadTexture();
 
 	int texID= texture.texData.textureID;
 	int w=texture.texData.width;
 	int h=texture.texData.height;
-	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID);
+	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID,bUsePixels,bSetRecordingHint);
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofResumeVideoGrabbers(): textures allocated";
 	appPaused = false;
 }
@@ -303,9 +281,18 @@ bool ofxAndroidVideoGrabber::initCamera(){
 
 	jclass javaClass = getJavaClass();
 
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
 	if(data->javaVideoGrabber && javaInitGrabber){
-		env->CallVoidMethod(data->javaVideoGrabber,javaInitGrabber,data->width,data->height,data->attemptFramerate,data->texture.texData.textureID);
+		env->CallVoidMethod(
+			data->javaVideoGrabber,
+			javaInitGrabber,
+			data->width,
+			data->height,
+			data->attemptFramerate,
+			data->texture.texData.textureID,
+			data->bUsePixels,
+			data->bSetRecordingHint
+		);
 	} else {
 		ofLogError("ofxAndroidVideoGrabber") << "initGrabber(): couldn't get OFAndroidVideoGrabber init grabber method";
 		return false;
@@ -326,6 +313,10 @@ void ofxAndroidVideoGrabber::videoSettings(){
 
 void ofxAndroidVideoGrabber::setUsePixels(bool usePixels){
 	data->bUsePixels = usePixels;
+}
+
+void ofxAndroidVideoGrabber::setRecordingHint(bool setRecordingHint){
+	data->bSetRecordingHint = setRecordingHint;
 }
 
 ofPixels& ofxAndroidVideoGrabber::getPixels(){

@@ -79,11 +79,15 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 
 		if(initialized){
 			stopGrabber();
-			initGrabber(width, height, targetFps, texID);
+			initGrabber(width, height, targetFps, texID, usePixelData);
 		}
 	}
-
-	public void initGrabber(int w, int h, int _targetFps, int _texID){
+	
+	public void initGrabber(int w, int h, int _targetFps, int _texID, boolean _usePixelData){
+		initGrabber(w,h,_targetFps,_texID,_usePixelData,true);
+	}
+	
+	public void initGrabber(int w, int h, int _targetFps, int _texID, boolean _usePixelData, boolean _setRecordingHint){
 		if(camera != null){
 			camera.release();
 		}
@@ -106,6 +110,9 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 			texID = _texID;
 			setTexture(texID);
 		}
+		
+		usePixelData = _usePixelData;
+		setRecordingHint = _setRecordingHint;
 
 		Camera.Parameters config = camera.getParameters();
 		
@@ -124,24 +131,32 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 			Log.i("OF",i.toString());
 		}
 
+		
+		java.util.List<String> focusModes = config.getSupportedFocusModes();
+		if(focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)){
+			config.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+		}
+		else if(focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)){
+			config.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+		}
+		else if(focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)){
+			config.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+		}
+		
 		Log.i("OF", "Grabber default format: " + config.getPreviewFormat());
 		Log.i("OF", "Grabber default preview size: " + config.getPreviewSize().width + "," + config.getPreviewSize().height);
 		config.setPictureSize(w, h);
 		config.setPreviewSize(w, h);
 		config.setPreviewFormat(ImageFormat.NV21);
-		try{
-			Method setRecordingHint = config.getClass().getMethod("setRecordingHint",boolean.class);
-			setRecordingHint.invoke(config, true);
-		}catch(Exception e){
-			Log.i("OF","couldn't set recording hint");
+		if(setRecordingHint){
+			try {
+				Method setRecordingHintMethod = config.getClass().getMethod("setRecordingHint",boolean.class);
+				setRecordingHintMethod.invoke(config, true);
+			}
+			catch(Exception e){
+				Log.i("OF","couldn't set recording hint");
+			}
 		}
-		try{
-			camera.setParameters(config);
-		}catch(Exception e){
-			Log.e("OF","couldn init camera", e);
-		}
-
-		config = camera.getParameters();
 		width = config.getPreviewSize().width;
 		height = config.getPreviewSize().height;
 		if(width!=w || height!=h)  Log.w("OF","camera size different than asked for, resizing (this can slow the app)");
@@ -158,26 +173,29 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 		}
 
 		Log.i("OF", "Grabber fps: " + targetFps);
-		config = camera.getParameters();
 		config.setPreviewFrameRate(targetFps);
+		config.setPreviewFpsRange(30000,30000);
+		
 		try{
 			camera.setParameters(config);
+			ready = true;
+			if(onReadyCb != null){
+				onReadyCb.run();
+			}
 		} catch(Exception e){
 			Log.e("OF","couldn init camera", e);
 		}
 
 		Log.i("OF", "camera settings: " + width + "x" + height);
-
-		int bufferSize = width * height;
-		if(buffer == null || buffer.length != bufferSize) {
-			// it actually needs (width*height) * 3/2
-			bufferSize = bufferSize * ImageFormat.getBitsPerPixel(config.getPreviewFormat()) / 8;
-			buffer[0] = new byte[bufferSize];
-			buffer[1] = new byte[bufferSize];
+		if(usePixelData){
+			int bufferSize = width * height;
+			if(buffer == null || buffer.length != bufferSize) {
+				// it actually needs (width*height) * 3/2
+				bufferSize = bufferSize * ImageFormat.getBitsPerPixel(config.getPreviewFormat()) / 8;
+				buffer[0] = new byte[bufferSize];
+				buffer[1] = new byte[bufferSize];
+			}
 		}
-
-		//orientationListener = new OrientationListener(OFAndroid.getContext());
-		//orientationListener.enable();
 		
 		thread = new Thread(this);
 		thread.start();
@@ -186,15 +204,19 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 
 	public void stopGrabber(){
 		if(initialized){
+			surfaceTexture.setOnFrameAvailableListener(null);
 			Log.i("OF", "stopping camera");
 			camera.stopPreview();
+			surfaceTexture.release();
 			previewStarted = false;
 			try {
 				thread.join();
 			} catch (InterruptedException e) {
 				Log.e("OF", "problem trying to close camera thread", e);
 			}
-			camera.setPreviewCallback(null);
+			if(usePixelData){
+				camera.setPreviewCallback(null);
+			}
 			try {
 				if (Build.VERSION.SDK_INT >= 11) {
 					camera.setPreviewTexture(surfaceTexture);
@@ -216,21 +238,26 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			// Add the other buffer to the callback queue to indicate we are ready for new frame
-			camera.addCallbackBuffer(buffer[bufferFlipFlip?0:1]);
-			bufferFlipFlip = !bufferFlipFlip;
-		} catch (Exception e) {
-			Log.e("OF", "error adding buffer", e);
+		if(usePixelData){
+			try {
+				// Add the other buffer to the callback queue to indicate we are ready for new frame
+				camera.addCallbackBuffer(buffer[bufferFlipFlip?0:1]);
+				bufferFlipFlip = !bufferFlipFlip;
+			} catch (Exception e) {
+				Log.e("OF", "error adding buffer", e);
+			}
 		}
 	}
 
 	// Getting the current frame data as byte array
 	// Notice: this locks the thread, you need to  call releaseFrameData() when done
 	public byte[] getFrameData(){
-		//threadLock.lock();
-		return buffer[bufferFlipFlip?0:1];
+		if(usePixelData){
+			return buffer[bufferFlipFlip?0:1];
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void releaseFrameData(){
@@ -330,29 +357,31 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 		}
 	}
 	
-	public void onPreviewFrame(byte[] data, Camera camera) {
-		//Log.i("OF","video buffer length: " + data.length);
-		//Log.i("OF", "size: " + camera.getParameters().getPreviewSize().width + "x" + camera.getParameters().getPreviewSize().height);
-		//Log.i("OF", "format " + camera.getParameters().getPreviewFormat());
-
-		// Tell the of app that a new frame has arrived
+	public void onPreviewFrame(final byte[] data, Camera camera) {
 		newFrame(data, width, height, instanceId);
-
-		// Don't add in the buffer again, but instead wait for the cpp code to call update
 	}
 
 	public void run() {
 		thread.setPriority(Thread.MAX_PRIORITY);
-		try {
-			// Add the first callback buffer to the queue
-			camera.addCallbackBuffer(buffer[0]);
-			camera.setPreviewCallbackWithBuffer(this);
+		if(usePixelData){
+			try {
+				// Add the first callback buffer to the queue
+				camera.addCallbackBuffer(buffer[0]);
+				camera.setPreviewCallbackWithBuffer(this);
 
-			Log.i("OF","setting camera callback with buffer");
-		} catch (SecurityException e) {
-			Log.e("OF","security exception, check permissions in your AndroidManifest to access to the camera",e);
-		} catch (Exception e) {
-			Log.e("OF","error adding callback",e);
+				Log.i("OF","setting camera callback with buffer");
+			} catch (SecurityException e) {
+				Log.e("OF","security exception, check permissions in your AndroidManifest to access to the camera",e);
+			} catch (Exception e) {
+				Log.e("OF","error adding callback",e);
+			}
+		}
+		else {
+			surfaceTexture.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener(){
+				public void onFrameAvailable(SurfaceTexture tex){
+					newFrame(null,0,0,instanceId);
+				}
+			});
 		}
 		
 		try{
@@ -395,12 +424,13 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 	
 	
 
-	private Camera camera;
+	public Camera camera;
 	private int deviceID = -1;
 	private byte[][] buffer = {null, null};
 	private boolean bufferFlipFlip = false;
 	private int width, height, targetFps;
 	private int texID;
+	private boolean usePixelData, setRecordingHint;
 	private Thread thread;
 	private int instanceId;
 	private static int nextId=0;
@@ -408,6 +438,7 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 	private boolean initialized = false;
 	private boolean previewStarted = false;
 	SurfaceTexture surfaceTexture;
-	
+	public boolean ready = false;
+	public Runnable onReadyCb;
 
 }
