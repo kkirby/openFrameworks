@@ -450,6 +450,15 @@ int ofHexToInt(const string& intHexString) {
 }
 
 //----------------------------------------
+unsigned long ofHexToULong(const string& intHexString) {
+	unsigned long x = 0;
+	istringstream cur(intHexString);
+	cur >> hex >> x;
+	return x;
+}
+
+
+//----------------------------------------
 char ofHexToChar(const string& charHexString) {
 	int x = 0;
 	istringstream cur(charHexString);

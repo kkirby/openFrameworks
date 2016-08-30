@@ -689,6 +689,8 @@ string ofToHex(const char* value);
 /// \returns the integer represented by the string.
 int ofHexToInt(const string& intHexString);
 
+unsigned long ofHexToULong(const string& intHexString);
+
 /// \brief Convert a string representing an char in hexadecimal to a char.
 ///
 /// Converts a hexadecimal representation of an char (e.g., `"61"`) to an actual
