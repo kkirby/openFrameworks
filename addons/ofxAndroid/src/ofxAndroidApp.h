@@ -12,13 +12,17 @@
 #include "ofConstants.h"
 #include "ofxAndroidUtils.h"
 
+void ofRegenerateAllTextures();
+
 class ofxAndroidApp: public ofBaseApp{
 public:
 	virtual void pause(){};
 	virtual void stop(){};
 	virtual void resume(){};
 	virtual void reloadTextures(){}
-	virtual void unloadTextures(){}
+	virtual void unloadTextures(){
+		ofRegenerateAllTextures();
+	}
 	virtual void reloadGL(){reloadTextures();}
 	virtual void unloadGL(){unloadTextures();}
 	virtual void swipe(ofxAndroidSwipeDir swipeDir, int id){
