@@ -52,7 +52,7 @@ space :=
 space += 
 
 define src_to_obj
-	$(addsuffix .o,$(basename $(filter %.c %.cpp %.cc %.cxx %.cc %.s %.S, $(addprefix $3,$(addprefix $2,$1)))))
+	$(addsuffix .o,$(basename $(filter %.c %.cpp %.mm %.m %.cc %.cxx %.cc %.s %.S, $(addprefix $3,$(addprefix $2,$1)))))
 endef
 
 # PARSE addon_config.mk FILES
