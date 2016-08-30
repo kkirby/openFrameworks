@@ -155,7 +155,7 @@ endif
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 
-PLATFORM_LDFLAGS = -stdlib=$(MAC_OS_STD_LIB)
+PLATFORM_LDFLAGS = -stdlib=$(MAC_OS_STD_LIB) -rpath @executable_path
 
 #PLATFORM_LDFLAGS += -arch i386
 #PLATFORM_LDFLAGS += -F$(OF_LIBS_PATH)/glut/lib/osx/
