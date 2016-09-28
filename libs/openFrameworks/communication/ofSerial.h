@@ -12,6 +12,7 @@
 	#include <tchar.h>
 	#include <iostream>
 	#include <string.h>
+	#include <devpropdef.h>
 	#if !defined(TARGET_WINRT)
 		#include <setupapi.h>
 		#include <regstr.h>
