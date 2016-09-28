@@ -1002,12 +1002,12 @@ ofTargetPlatform ofGetTargetPlatform(){
     }
 #elif defined(TARGET_OSX)
     return OF_TARGET_OSX;
-#elif defined(TARGET_WIN32)
-    #if (_MSC_VER)
-        return OF_TARGET_WINVS;
-    #else
-        return OF_TARGET_MINGW;
-    #endif
+#elif defined(TARGET_WIN32) || defined(TARGET_WINRT)
+	#if (_MSC_VER)
+		return OF_TARGET_WINVS;
+	#else
+		return OF_TARGET_WINGCC;
+	#endif
 #elif defined(TARGET_ANDROID)
     return OF_TARGET_ANDROID;
 #elif defined(TARGET_OF_IOS)
