@@ -1,6 +1,11 @@
 #include "ofTrueTypeFont.h"
 //--------------------------
 
+#ifdef TARGET_WINRT
+#define generic GenericFromFreeTypeLibrary
+#define internal InternalFromFreeTypeLibrary
+#endif
+
 #include <ft2build.h>
 
 #ifdef TARGET_LINUX
@@ -11,6 +16,11 @@
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 #include FT_TRIGONOMETRY_H
+
+#ifdef TARGET_WINRT
+#undef generic
+#undef internal
+#endif
 
 #include <algorithm>
 #include <numeric>

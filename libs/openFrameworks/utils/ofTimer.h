@@ -22,7 +22,7 @@ private:
 	void calculateNextPeriod();
 #if (defined(TARGET_LINUX) && !defined(TARGET_RASPBERRY_PI))
     timespec nextWakeTime;
-#elif defined(TARGET_WIN32)
+#elif defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	LARGE_INTEGER nextWakeTime;
 	HANDLE hTimer;
 #else

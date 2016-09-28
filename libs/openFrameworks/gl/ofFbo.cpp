@@ -6,7 +6,7 @@
 #include "ofGLRenderer.h"
 #include <map>
 
-#ifdef TARGET_OPENGLES
+#if defined(TARGET_OPENGLES) && !defined(TARGET_WINRT)
 #include <dlfcn.h>
 #endif
 #ifdef TARGET_ANDROID
@@ -24,7 +24,7 @@
 
  */
 
-#ifdef TARGET_OPENGLES
+#if defined(TARGET_OPENGLES) && !defined(TARGET_WINRT)
 	bool ofFbo::bglFunctionsInitialized=false;
 	
 	typedef void (* glGenFramebuffersType) (GLsizei n, GLuint* framebuffers);
@@ -236,7 +236,7 @@ dirty(false),
 defaultTextureIndex(0),
 bIsAllocated(false)
 {
-#ifdef TARGET_OPENGLES
+#if defined(TARGET_OPENGLES) && !defined(TARGET_WINRT)
 	if(!bglFunctionsInitialized){
 		if(ofIsGLProgrammableRenderer()){
 			glGenFramebuffers = (glGenFramebuffersType)dlsym(RTLD_DEFAULT, "glGenFramebuffers");
@@ -1152,7 +1152,7 @@ bool ofFbo::checkStatus() const {
 		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
 			ofLogError("ofFbo") << "FRAMEBUFFER_INCOMPLETE_DIMENSIONS";
 			break;
-#ifndef TARGET_PROGRAMMABLE_GL
+#if !defined(TARGET_PROGRAMMABLE_GL) && !defined(TARGET_WINRT)
 		case GL_FRAMEBUFFER_INCOMPLETE_FORMATS:
 			ofLogError("ofFbo") << "FRAMEBUFFER_INCOMPLETE_FORMATS";
 			break;
@@ -1160,7 +1160,7 @@ bool ofFbo::checkStatus() const {
 		case GL_FRAMEBUFFER_UNSUPPORTED:
 			ofLogError("ofFbo") << "FRAMEBUFFER_UNSUPPORTED";
 			break;
-#ifndef TARGET_OPENGLES
+#if !defined(TARGET_OPENGLES) && !defined(TARGET_WINRT)
 		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
 			ofLogWarning("ofFbo") << "FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
 			break;

@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{81bd3e3d-7a79-4526-8ae1-d7d8d533f5fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks">
+      <UniqueIdentifier>{7f36db21-6ac5-46e7-8f05-cf8f509a012d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\app">
+      <UniqueIdentifier>{b3cd4680-3632-4a65-ace2-d85fe77d6a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\graphics">
+      <UniqueIdentifier>{d220cd56-8224-44a2-a5eb-d68ad46b8fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\sound">
+      <UniqueIdentifier>{ac079053-7e8a-4bfe-b165-1c0919f9907b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\video">
+      <UniqueIdentifier>{224ff021-bfde-484f-a1cc-76571c50333b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\events">
+      <UniqueIdentifier>{48f6c801-cab3-4173-9666-da63d4a930c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\types">
+      <UniqueIdentifier>{b2a560f6-35bf-4464-bf3b-ae1bff791fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\math">
+      <UniqueIdentifier>{f4b47d13-e874-4d85-8647-84559dcb0d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\3d">
+      <UniqueIdentifier>{d04193bd-7bfd-4073-915c-3d1f41644cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\gl">
+      <UniqueIdentifier>{1c010f17-ae7f-4230-ac47-dec38780d863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\utils">
+      <UniqueIdentifier>{e7d003dc-0da3-40da-89e7-32346bc8f83f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\openFrameworks\video\CaptureFrameGrabber">
+      <UniqueIdentifier>{d20d2780-9f8e-453b-a4cc-e9679283c93e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppNoWindow.cpp">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppRunner.cpp">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\app\ofMainLoop.cpp">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\of3dGraphics.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofBitmapFont.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofCairoRenderer.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofGraphics.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofImage.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofPath.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofPixels.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofRendererCollection.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofTessellator.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofTrueTypeFont.cpp">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofBaseSoundStream.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofFmodSoundPlayer.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofRtAudioSoundStream.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundBuffer.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundPlayer.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundStream.cpp">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\ofVideoGrabber.cpp">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\ofVideoPlayer.cpp">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\events\ofEvents.cpp">
+      <Filter>libs\openFrameworks\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\types\ofBaseTypes.cpp">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\types\ofColor.cpp">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\types\ofParameter.cpp">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\types\ofParameterGroup.cpp">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\types\ofRectangle.cpp">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMath.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMatrix3x3.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMatrix4x4.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofQuaternion.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofVec2f.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\math\ofVec4f.cpp">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\3d\of3dPrimitives.cpp">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\3d\of3dUtils.cpp">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofCamera.cpp">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofEasyCam.cpp">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofNode.cpp">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofBufferObject.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofFbo.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofGLUtils.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofLight.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofMaterial.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofGLProgrammableRenderer.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofShader.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofTexture.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofVbo.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofVboMesh.cpp">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofFileUtils.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofFpsCounter.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofLog.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofMatrixStack.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofSystemUtils.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofThread.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofTimer.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofURLFileLoader.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofUtils.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofXml.cpp">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppWinRTWindow.cpp">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\ofWinrtVideoGrabber.cpp">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\ofMediaFoundationPlayer.cpp">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\CaptureFrameGrabber.cpp">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaStreamSink.cpp">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\openFrameworks\ofMain.h">
+      <Filter>libs\openFrameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppBaseWindow.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppNoWindow.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofBaseApp.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofMainLoop.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofWindowSettings.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppRunner.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\of3dGraphics.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofBitmapFont.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofCairoRenderer.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofGraphics.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofImage.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPath.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPixels.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPolyline.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofRendererCollection.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofTessellator.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofTrueTypeFont.h">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofBaseSoundPlayer.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofBaseSoundStream.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofFmodSoundPlayer.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofRtAudioSoundStream.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofSoundPlayer.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofSoundStream.h">
+      <Filter>libs\openFrameworks\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\ofVideoGrabber.h">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\ofVideoPlayer.h">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEvent.h">
+      <Filter>libs\openFrameworks\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEvents.h">
+      <Filter>libs\openFrameworks\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEventUtils.h">
+      <Filter>libs\openFrameworks\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofBaseTypes.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofParameter.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofParameterGroup.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofColor.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofPoint.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofRectangle.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\types\ofTypes.h">
+      <Filter>libs\openFrameworks\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMath.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMatrix3x3.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMatrix4x4.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofQuaternion.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec2f.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec3f.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec4f.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVectorMath.h">
+      <Filter>libs\openFrameworks\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\of3dPrimitives.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\of3dUtils.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofCamera.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofEasyCam.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofMesh.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofNode.h">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofBufferObject.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofFbo.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofGLUtils.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofLight.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofMaterial.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofGLProgrammableRenderer.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofShader.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofTexture.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofVbo.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofVboMesh.h">
+      <Filter>libs\openFrameworks\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofConstants.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofFileUtils.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofFpsCounter.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofLog.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofMatrixStack.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofNoise.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofSystemUtils.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofThread.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofThreadChannel.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofTimer.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofURLFileLoader.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofUtils.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofXml.h">
+      <Filter>libs\openFrameworks\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppWinRTWindow.h">
+      <Filter>libs\openFrameworks\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\ofWinrtVideoGrabber.h">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\ofMediaFoundationPlayer.h">
+      <Filter>libs\openFrameworks\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\CaptureFrameGrabber.h">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaSink.h">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaStreamSink.h">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MFIncludes.h">
+      <Filter>libs\openFrameworks\video\CaptureFrameGrabber</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\openFrameworks\graphics\ofPolyline.inl">
+      <Filter>libs\openFrameworks\graphics</Filter>
+    </None>
+    <None Include="..\..\..\openFrameworks\3d\ofMesh.inl">
+      <Filter>libs\openFrameworks\3d</Filter>
+    </None>
+  </ItemGroup>
+</Project>

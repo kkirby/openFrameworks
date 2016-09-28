@@ -2,7 +2,7 @@
 #include "ofUtils.h"
 #include "float.h"
 
-#ifndef TARGET_WIN32
+#if !defined(TARGET_WIN32) && !defined(TARGET_WINRT)
 	#include <sys/time.h>
 #endif
 
@@ -25,6 +25,10 @@ void ofSeedRandom() {
 
 	#ifdef TARGET_WIN32
 		srand(GetTickCount());
+	#elif defined(TARGET_WINRT)
+		LARGE_INTEGER t;
+		QueryPerformanceCounter(&t);
+		srand(t.QuadPart);
 	#elif !defined(TARGET_EMSCRIPTEN)
 		// use XOR'd second, microsecond precision AND pid as seed
 		struct timeval tv;

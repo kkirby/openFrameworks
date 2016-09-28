@@ -19,7 +19,7 @@
 #include "ofURLFileLoader.h"
 #include "ofMainLoop.h"
 
-#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN) & !defined(TARGET_RASPBERRY_PI)
+#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN) & !defined(TARGET_RASPBERRY_PI) & !defined(TARGET_WINRT)
 	#include "ofAppGLFWWindow.h"
 	//special case so we preserve supplied settngs
 	//TODO: remove me when we remove the ofAppGLFWWindow setters.
@@ -163,7 +163,7 @@ void ofSetMainLoop(shared_ptr<ofMainLoop> newMainLoop) {
 int ofRunApp(ofBaseApp * OFSA){
 	mainLoop()->run(std::move(shared_ptr<ofBaseApp>(OFSA)));
 	auto ret = ofRunMainLoop();
-#if !defined(TARGET_ANDROID) && !defined(TARGET_OF_IOS)
+#if !defined(TARGET_ANDROID) && !defined(TARGET_OF_IOS) && !defined(TARGET_WINRT)
 	ofExitCallback();
 #endif
 	return ret;

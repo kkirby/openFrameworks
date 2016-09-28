@@ -1057,23 +1057,27 @@ void ofGLProgrammableRenderer::setBlendMode(ofBlendMode blendMode){
 
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::enablePointSprites(){
-#ifdef TARGET_OPENGLES
-	#ifndef TARGET_PROGRAMMABLE_GL
-		glEnable(GL_POINT_SPRITE_OES);
+#ifndef TARGET_WINRT
+	#ifdef TARGET_OPENGLES
+		#ifndef TARGET_PROGRAMMABLE_GL
+			glEnable(GL_POINT_SPRITE_OES);
+		#endif
+	#else
+		glEnable(GL_PROGRAM_POINT_SIZE);
 	#endif
-#else
-	glEnable(GL_PROGRAM_POINT_SIZE);
 #endif
 }
 
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::disablePointSprites(){
-#ifdef TARGET_OPENGLES
-	#ifndef TARGET_PROGRAMMABLE_GL
-		glEnable(GL_POINT_SPRITE_OES);
+#ifndef TARGET_WINRT
+	#ifdef TARGET_OPENGLES
+		#ifndef TARGET_PROGRAMMABLE_GL
+			glEnable(GL_POINT_SPRITE_OES);
+		#endif
+	#else
+		glDisable(GL_PROGRAM_POINT_SIZE);
 	#endif
-#else
-	glDisable(GL_PROGRAM_POINT_SIZE);
 #endif
 }
 
@@ -1081,14 +1085,18 @@ void ofGLProgrammableRenderer::disablePointSprites(){
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::enableAntiAliasing(){
 #if !defined(TARGET_PROGRAMMABLE_GL) || !defined(TARGET_OPENGLES)
-	glEnable(GL_MULTISAMPLE);
+	#ifndef TARGET_WINRT
+		glEnable(GL_MULTISAMPLE);
+	#endif
 #endif
 }
 
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::disableAntiAliasing(){
 #if !defined(TARGET_PROGRAMMABLE_GL) || !defined(TARGET_OPENGLES)
-	glDisable(GL_MULTISAMPLE);
+	#ifndef TARGET_WINRT
+		glDisable(GL_MULTISAMPLE);
+	#endif
 #endif
 }
 
@@ -1197,7 +1205,7 @@ void ofGLProgrammableRenderer::setAttributes(bool vertices, bool color, bool tex
 	if(wasColorsEnabled!=color){
 		if(currentShader) currentShader->setUniform1f(USE_COLORS_UNIFORM,color);
 	}
-#if defined(TARGET_OPENGLES) && !defined(TARGET_EMSCRIPTEN)
+#if defined(TARGET_OPENGLES) && !defined(TARGET_EMSCRIPTEN) && !defined(TARGET_WINRT)
 	if(vertices){
 		glEnableClientState(GL_VERTEX_ARRAY);
 	}

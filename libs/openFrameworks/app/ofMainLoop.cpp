@@ -23,6 +23,8 @@
 	#include "ofAppEGLWindow.h"
 #elif defined(TARGET_EMSCRIPTEN)
 	#include "ofxAppEmscriptenWindow.h"
+#elif defined(TARGET_WINRT)
+	#include "ofAppWinRTWindow.h"
 #else
 	#include "ofAppGLFWWindow.h"
 #endif
@@ -52,8 +54,10 @@ shared_ptr<ofAppBaseWindow> ofMainLoop::createWindow(const ofWindowSettings & se
 	shared_ptr<ofAppEGLWindow> window = shared_ptr<ofAppEGLWindow>(new ofAppEGLWindow());
 	#elif defined(TARGET_EMSCRIPTEN)
 	shared_ptr<ofxAppEmscriptenWindow> window = shared_ptr<ofxAppEmscriptenWindow>(new ofxAppEmscriptenWindow);
-	#elif defined(TARGET_OPENGLES)
+	#elif defined(TARGET_OPENGLES) & !defined(TARGET_WINRT)
 	shared_ptr<ofAppGLFWWindow> window = shared_ptr<ofAppGLFWWindow>(new ofAppGLFWWindow());
+	#elif defined(TARGET_WINRT)
+	shared_ptr<ofAppWinRTWindow> window = shared_ptr<ofAppWinRTWindow>(new ofAppWinRTWindow());
 	#else
 	shared_ptr<ofAppGLFWWindow> window = shared_ptr<ofAppGLFWWindow>(new ofAppGLFWWindow());
 	#endif

@@ -27,6 +27,11 @@
 	#define OF_VID_GRABBER_TYPE ofDirectShowGrabber
 #endif
 
+#ifdef OF_VIDEO_CAPTURE_WINRT
+	#include "ofWinrtVideoGrabber.h"
+	#define OF_VID_GRABBER_TYPE ofWinrtVideoGrabber
+#endif
+
 #ifdef OF_VIDEO_CAPTURE_GSTREAMER
 	#include "ofGstVideoGrabber.h"
 	#define OF_VID_GRABBER_TYPE ofGstVideoGrabber

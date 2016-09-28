@@ -70,6 +70,13 @@ namespace{
         }
     #elif defined TARGET_ANDROID
             return string("sdcard/");
+	#elif defined TARGET_WINRT
+		try {
+			return std::filesystem::canonical(ofFilePath::join(ofFilePath::getCurrentExeDir(), "AppX/data/")).string();
+		}
+		catch (...) {
+			return ofFilePath::join(ofFilePath::getCurrentExeDir(), "AppX/data/");
+		}
     #else
             try{
                 return std::filesystem::canonical(ofFilePath::join(ofFilePath::getCurrentExeDir(),  "data/")).string();
@@ -123,7 +130,7 @@ void ofGetMonotonicTime(uint64_t & seconds, uint64_t & nanoseconds){
         clock_get_time(cs, &now);
 	seconds = now.tv_sec;
 	nanoseconds = now.tv_nsec;
-#elif defined( TARGET_WIN32 )
+#elif defined( TARGET_WIN32 ) || defined(TARGET_WINRT)
 	LARGE_INTEGER freq;
 	LARGE_INTEGER counter;
 	QueryPerformanceFrequency(&freq);
@@ -195,7 +202,7 @@ unsigned int ofGetUnixTime(){
 
 //--------------------------------------
 void ofSleepMillis(int millis){
-	#ifdef TARGET_WIN32
+	#if defined(TARGET_WIN32) || defined(TARGET_WINRT)
 		Sleep(millis);
 	#elif defined(TARGET_LINUX)
 		timespec interval = {millis/1000, millis%1000*1000000};
@@ -962,6 +969,9 @@ void ofSaveFrame(bool bUseViewport){
 
 //--------------------------------------------------
 string ofSystem(const string& command){
+	#ifdef TARGET_WINRT
+		return "";
+	#else
 	FILE * ret = nullptr;
 #ifdef TARGET_WIN32
 	ret = _popen(command.c_str(),"r");
@@ -988,6 +998,7 @@ string ofSystem(const string& command){
 	}
 
 	return strret;
+	#endif
 }
 
 //--------------------------------------------------
@@ -1030,6 +1041,8 @@ std::string ofGetEnv(const std::string & var){
 	}else{
 		return "";
 	}
+#elif defined(TARGET_WINRT)
+	return "";
 #else
 	auto value = getenv(var.c_str());
 	if(value){

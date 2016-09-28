@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_PropertySheetDisplayName>OFCompile</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OF_PATH)\libs\ANGLE\include;$(OF_PATH)\addons;$(OF_PATH)\libs\boost\include;$(OF_PATH)\libs\cairo\include\cairo;$(OF_PATH)\libs\fmodex\include;$(OF_PATH)\libs\FreeImage\include;$(OF_PATH)\libs\freetype\include;$(OF_PATH)\libs\freetype\include\freetype2;$(OF_PATH)\libs\glew\include;$(OF_PATH)\libs\glfw\include;$(OF_PATH)\libs\glm\include;$(OF_PATH)\libs\glu\include;$(OF_PATH)\libs\glut\include;$(OF_PATH)\libs\json\include;$(OF_PATH)\libs\kiss\include;$(OF_PATH)\libs\openssl\include;$(OF_PATH)\libs\poco\include;$(OF_PATH)\libs\quicktime\include;$(OF_PATH)\libs\rtAudio\include;$(OF_PATH)\libs\tess2\include;$(OF_PATH)\libs\utf8cpp\include;$(OF_PATH)\libs\videoInput\include;$(OF_PATH)\libs\openFrameworks;$(OF_PATH)\libs\openFrameworks\video;$(OF_PATH)\libs\openFrameworks\utils;$(OF_PATH)\libs\openFrameworks\types;$(OF_PATH)\libs\openFrameworks\sound;$(OF_PATH)\libs\openFrameworks\math;$(OF_PATH)\libs\openFrameworks\graphics;$(OF_PATH)\libs\openFrameworks\gl;$(OF_PATH)\libs\openFrameworks\events;$(OF_PATH)\libs\openFrameworks\communication;$(OF_PATH)\libs\openFrameworks\app;$(OF_PATH)\libs\openFrameworks\3d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;OF_VIDEO_PLAYER_MEDIAFOUNDATION;USE_PROGRAMMABLE_GL;WIN32;_CONSOLE;POCO_STATIC;CAIRO_WIN32_STATIC_BUILD;DISABLE_SOME_FLOATING_POINT;TARGET_NO_SOUND;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996;4244;4005;4567;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{dc34e296-0962-43f5-a613-c6dfd3eb4094}</ProjectGuid>
+    <Keyword>StaticLibrary</Keyword>
+    <RootNamespace>OpenFrameworks</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Store</ApplicationType>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.10586.0</WindowsTargetPlatformMinVersion>
+    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <ProjectName>OpenFrameworks</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformExtensionSDKLocation(`WindowsDesktop, Version=10.0.14393.0`, $(TargetPlatformIdentifier), $(TargetPlatformVersion),  $(SDKReferenceDirectoryRoot), $(SDKExtensionDirectoryRoot), $(SDKReferenceRegistryRoot)))\DesignTime\CommonConfiguration\Neutral\WindowsDesktop.props" Condition="exists('$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformExtensionSDKLocation(`WindowsDesktop, Version=10.0.14393.0`, $(TargetPlatformIdentifier), $(TargetPlatformVersion),  $(SDKReferenceDirectoryRoot), $(SDKExtensionDirectoryRoot), $(SDKReferenceRegistryRoot)))\DesignTime\CommonConfiguration\Neutral\WindowsDesktop.props')" />
+    <Import Project="OFCompile.props" />
+    <Import Project="..\..\..\..\..\..\project\vs\NowPik\OFProject.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformExtensionSDKLocation(`WindowsDesktop, Version=10.0.14393.0`, $(TargetPlatformIdentifier), $(TargetPlatformVersion),  $(SDKReferenceDirectoryRoot), $(SDKExtensionDirectoryRoot), $(SDKReferenceRegistryRoot)))\DesignTime\CommonConfiguration\Neutral\WindowsDesktop.props" Condition="exists('$([Microsoft.Build.Utilities.ToolLocationHelper]::GetPlatformExtensionSDKLocation(`WindowsDesktop, Version=10.0.14393.0`, $(TargetPlatformIdentifier), $(TargetPlatformVersion),  $(SDKReferenceDirectoryRoot), $(SDKExtensionDirectoryRoot), $(SDKReferenceRegistryRoot)))\DesignTime\CommonConfiguration\Neutral\WindowsDesktop.props')" />
+    <Import Project="OFCompile.props" />
+    <Import Project="..\..\..\..\..\..\project\vs\NowPik\OFProject.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <GenerateManifest>false</GenerateManifest>
+    <LibraryPath>C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\FreeImage\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\fmodex\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\cairo\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\glew\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\openssl\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\videoInput\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\tess2\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\rtAudio\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\quicktime\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\glut\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\glfw\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\glu\lib\vs\Win32;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\poco\lib\vs\Win32;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\freetype\lib\vs\Win32;$(NETFXKitsDir)Lib\um\x86;C:\msys64\home\Kyle\nowpik\cordova\plugin\cordova-plugin-gmr-nowpik-native\of_project\lib\openFrameworks\libs\boost\lib\vs\Win32</LibraryPath>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <CompileAsWinRT>true</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <WarningLevel>Level1</WarningLevel>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableParallelCodeGeneration>
+      </EnableParallelCodeGeneration>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Link>
+    <Lib>
+      <AdditionalOptions> /IGNORE:4264 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\openFrameworks\3d\of3dPrimitives.h" />
+    <ClInclude Include="..\..\..\openFrameworks\3d\of3dUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofCamera.h" />
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofEasyCam.h" />
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofMesh.h" />
+    <ClInclude Include="..\..\..\openFrameworks\3d\ofNode.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppBaseWindow.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppNoWindow.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppRunner.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofAppWinRTWindow.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofBaseApp.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofMainLoop.h" />
+    <ClInclude Include="..\..\..\openFrameworks\app\ofWindowSettings.h" />
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEvent.h" />
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEvents.h" />
+    <ClInclude Include="..\..\..\openFrameworks\events\ofEventUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofBufferObject.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofFbo.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofGLProgrammableRenderer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofGLUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofLight.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofMaterial.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofShader.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofTexture.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofVbo.h" />
+    <ClInclude Include="..\..\..\openFrameworks\gl\ofVboMesh.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\of3dGraphics.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofBitmapFont.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofCairoRenderer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofGraphics.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofImage.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPath.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPixels.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofPolyline.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofRendererCollection.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofTessellator.h" />
+    <ClInclude Include="..\..\..\openFrameworks\graphics\ofTrueTypeFont.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMath.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMatrix3x3.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofMatrix4x4.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofQuaternion.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec2f.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec3f.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVec4f.h" />
+    <ClInclude Include="..\..\..\openFrameworks\math\ofVectorMath.h" />
+    <ClInclude Include="..\..\..\openFrameworks\ofMain.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofBaseSoundPlayer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofBaseSoundStream.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofFmodSoundPlayer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofRtAudioSoundStream.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofSoundPlayer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\sound\ofSoundStream.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofBaseTypes.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofColor.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofParameter.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofParameterGroup.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofPoint.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofRectangle.h" />
+    <ClInclude Include="..\..\..\openFrameworks\types\ofTypes.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofConstants.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofFileUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofFpsCounter.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofLog.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofMatrixStack.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofNoise.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofSystemUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofThread.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofThreadChannel.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofTimer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofURLFileLoader.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofUtils.h" />
+    <ClInclude Include="..\..\..\openFrameworks\utils\ofXml.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\CaptureFrameGrabber.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaSink.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaStreamSink.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MFIncludes.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\ofMediaFoundationPlayer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\ofVideoGrabber.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\ofVideoPlayer.h" />
+    <ClInclude Include="..\..\..\openFrameworks\video\ofWinrtVideoGrabber.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\openFrameworks\3d\of3dPrimitives.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\3d\of3dUtils.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofCamera.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofEasyCam.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\3d\ofNode.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppNoWindow.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppRunner.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\app\ofAppWinRTWindow.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\app\ofMainLoop.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\events\ofEvents.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofBufferObject.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofFbo.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofGLProgrammableRenderer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofGLUtils.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofLight.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofMaterial.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofShader.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofTexture.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofVbo.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\gl\ofVboMesh.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\of3dGraphics.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofBitmapFont.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofCairoRenderer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofGraphics.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofImage.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofPath.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofPixels.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofRendererCollection.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofTessellator.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\graphics\ofTrueTypeFont.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMath.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMatrix3x3.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofMatrix4x4.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofQuaternion.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofVec2f.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\math\ofVec4f.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofBaseSoundStream.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofFmodSoundPlayer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofRtAudioSoundStream.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundBuffer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundPlayer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\sound\ofSoundStream.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\types\ofBaseTypes.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\types\ofColor.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\types\ofParameter.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\types\ofParameterGroup.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\types\ofRectangle.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofFileUtils.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofFpsCounter.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofLog.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofMatrixStack.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofSystemUtils.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofThread.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofTimer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofURLFileLoader.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofUtils.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\utils\ofXml.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\CaptureFrameGrabber.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\CaptureFrameGrabber\MediaStreamSink.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\ofMediaFoundationPlayer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\ofVideoGrabber.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\ofVideoPlayer.cpp" />
+    <ClCompile Include="..\..\..\openFrameworks\video\ofWinrtVideoGrabber.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\openFrameworks\3d\ofMesh.inl" />
+    <None Include="..\..\..\openFrameworks\graphics\ofPolyline.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets'))" />
+  </Target>
+</Project>

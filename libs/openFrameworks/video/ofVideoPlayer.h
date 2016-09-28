@@ -40,6 +40,11 @@
 	#define OF_VID_PLAYER_TYPE ofxAndroidVideoPlayer
 #endif
 
+#ifdef OF_VIDEO_PLAYER_MEDIA_FOUNDATION
+	#include "ofMediaFoundationPlayer.h"
+	#define OF_VID_PLAYER_TYPE ofMediaFoundationPlayer
+#endif
+
 #ifdef OF_VIDEO_PLAYER_EMSCRIPTEN
 	#include "ofxEmscriptenVideoPlayer.h"
 	#define OF_VID_PLAYER_TYPE ofxEmscriptenVideoPlayer

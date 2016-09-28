@@ -172,6 +172,20 @@ class ofTouchEventArgs : public ofEventArgs, public glm::vec2 {
 	float xaccel, yaccel;
 };
 
+#ifdef TARGET_WINRT
+
+class ofAppResumeEventArgs : public ofEventArgs {
+public:
+    int state;
+};
+
+class ofAppSuspendEventArgs : public ofEventArgs {
+public:
+    int state;
+};
+
+#endif
+
 class ofResizeEventArgs : public ofEventArgs {
 public:
 	ofResizeEventArgs()
@@ -202,6 +216,13 @@ class ofCoreEvents {
 	ofEvent<ofEventArgs> 		update;
 	ofEvent<ofEventArgs> 		draw;
 	ofEvent<ofEventArgs> 		exit;
+	
+	#ifdef TARGET_WINRT
+	
+    ofEvent<ofAppResumeEventArgs> appResume;
+    ofEvent<ofAppSuspendEventArgs> appSuspend;
+	
+	#endif
 
 	ofEvent<ofResizeEventArgs> 	windowResized;
 
@@ -270,6 +291,13 @@ class ofCoreEvents {
 	bool notifyWindowResized(int width, int height);
 
 	bool notifyDragEvent(ofDragInfo info);
+	
+	#ifdef TARGET_WINRT
+	
+	void notifyAppResume(int state = 0);
+	void notifyAppSuspend(int tate = 0);
+	
+	#endif
 
 private:
 	float targetRate;

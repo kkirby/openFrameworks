@@ -16,7 +16,7 @@ ofTimer::ofTimer()
 void ofTimer::reset(){
 #if (defined(TARGET_LINUX) && !defined(TARGET_RASPBERRY_PI))
 	clock_gettime(CLOCK_MONOTONIC,&nextWakeTime);
-#elif defined(TARGET_WIN32)
+#elif defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	GetSystemTimeAsFileTime((LPFILETIME)&nextWakeTime);
 #else
 	ofGetMonotonicTime(nextWakeTime.tv_sec,nextWakeTime.tv_nsec);
@@ -33,7 +33,7 @@ void ofTimer::waitNext(){
 #if (defined(TARGET_LINUX) && !defined(TARGET_RASPBERRY_PI))
 	timespec remainder = {0,0};
 	clock_nanosleep(CLOCK_MONOTONIC,TIMER_ABSTIME,&nextWakeTime,&remainder);
-#elif defined(TARGET_WIN32)
+#elif defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	WaitForSingleObject(hTimer, INFINITE);
 #else
 	sec_ns now;
@@ -67,6 +67,8 @@ void ofTimer::calculateNextPeriod(){
 	}else{
 	    SetWaitableTimer(hTimer, &nextWakeTime, 0, nullptr, nullptr, 0);
 	}
+#elif defined(TARGET_WINRT)
+
 #else
     nextWakeTime.tv_nsec += nanosPerPeriod;
     if(nextWakeTime.tv_nsec>NANOS_PER_SEC){

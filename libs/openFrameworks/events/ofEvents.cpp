@@ -565,6 +565,25 @@ bool ofCoreEvents::notifyDragEvent(ofDragInfo info){
 	return ofNotifyEvent(fileDragEvent, info);
 }
 
+#ifdef TARGET_WINRT
+
+void ofCoreEvents::notifyAppResume(int state) {
+	static ofAppResumeEventArgs entryArgs;
+	entryArgs.state = state;
+	ofNotifyEvent(ofEvents().appResume, entryArgs);
+
+}
+
+void ofCoreEvents::notifyAppSuspend(int state) {
+
+	static ofAppSuspendEventArgs entryArgs;
+	entryArgs.state = state;
+	ofNotifyEvent(ofEvents().appSuspend, entryArgs);
+
+}
+
+#endif
+
 //------------------------------------------
 bool ofSendMessage(ofMessage msg){
 	return ofNotifyEvent(ofEvents().messageEvent, msg);

@@ -197,7 +197,7 @@ static bool loadImage(ofPixels_<PixelType> & pix, const std::filesystem::path& _
 	}
 #endif
 	
-	std::string fileName = ofToDataPath(_fileName);
+	std::string fileName = ofToDataPath(_fileName,true);
 	bool bLoaded = false;
 	FIBITMAP * bmp = nullptr;
 
@@ -491,7 +491,7 @@ static void saveImage(const ofPixels_<PixelType> & _pix, ofBuffer & buffer, ofIm
 		  but can also be retrieved by FreeImage_AcquireMemory that retrieves both the
 		  length of the buffer, and the buffer memory address.
 		  */
-			#ifdef TARGET_WIN32
+			#if defined(TARGET_WIN32) || defined(TARGET_WINRT)
 		   	   DWORD size_in_bytes = 0;
 			#else
 		   	   std::uint32_t size_in_bytes = 0;

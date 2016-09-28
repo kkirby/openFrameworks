@@ -12,8 +12,10 @@
 	#include <tchar.h>
 	#include <iostream>
 	#include <string.h>
-	#include <setupapi.h>
-	#include <regstr.h>
+	#if !defined(TARGET_WINRT)
+		#include <setupapi.h>
+		#include <regstr.h>
+	#endif
 	/// \cond INTERNAL
 	#define MAX_SERIAL_PORTS 256
 	/// \endcond
@@ -276,7 +278,7 @@ protected:
 	bool bHaveEnumeratedDevices;  ///\< \brief Indicate having enumerated devices (serial ports) available.
 	bool bInited;  ///\< \brief Indicate the successful initialization of the serial connection.
 
-#ifdef TARGET_WIN32
+#if defined (TARGET_WIN32) || defined (TARGET_WINRT)
 
 	/// \brief Enumerate all serial ports on Microsoft Windows.
 	///

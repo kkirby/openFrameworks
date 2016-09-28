@@ -21,7 +21,7 @@ bool ofVbo::vaoSupported=true;
 bool ofVbo::vaoChecked=false;
 
 
-#ifdef TARGET_OPENGLES
+#if defined(TARGET_OPENGLES)  && !defined(TARGET_WINRT)
 	#include <dlfcn.h>
 	typedef void (* glGenVertexArraysType) (GLsizei n,  GLuint *arrays);
 	glGenVertexArraysType glGenVertexArraysFunc = nullptr;
@@ -831,9 +831,11 @@ void ofVbo::bind() const{
 		if(vaoID==0){
 			#ifdef TARGET_OPENGLES
 			if(glGenVertexArrays==0 && !vaoChecked){
-				glGenVertexArrays = (glGenVertexArraysType)dlsym(RTLD_DEFAULT, "glGenVertexArrays");
-				glDeleteVertexArrays = (glDeleteVertexArraysType)dlsym(RTLD_DEFAULT, "glDeleteVertexArrays");
-				glBindVertexArray = (glBindVertexArrayType)dlsym(RTLD_DEFAULT, "glBindVertexArray");
+				#ifndef TARGET_WINRT
+					glGenVertexArrays = (glGenVertexArraysType)dlsym(RTLD_DEFAULT, "glGenVertexArrays");
+					glDeleteVertexArrays = (glDeleteVertexArraysType)dlsym(RTLD_DEFAULT, "glDeleteVertexArrays");
+					glBindVertexArray = (glBindVertexArrayType)dlsym(RTLD_DEFAULT, "glBindVertexArray");
+				#endif
 				vaoChecked = true;
 				vaoSupported = glGenVertexArrays;
 			}
@@ -857,10 +859,12 @@ void ofVbo::bind() const{
 			if(!programmable){
 				positionAttribute.bind();
 				#ifndef TARGET_PROGRAMMABLE_GL
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glVertexPointer(positionAttribute.numCoords, GL_FLOAT,
-								positionAttribute.stride,
-								(void*)positionAttribute.offset);
+					#ifndef TARGET_WINRT
+						glEnableClientState(GL_VERTEX_ARRAY);
+						glVertexPointer(positionAttribute.numCoords, GL_FLOAT,
+										positionAttribute.stride,
+										(void*)positionAttribute.offset);
+					#endif
 				#endif
 			}else{
 				positionAttribute.enable();
@@ -873,10 +877,12 @@ void ofVbo::bind() const{
 			if(!programmable){
 				colorAttribute.bind();
 				#ifndef TARGET_PROGRAMMABLE_GL
-				glEnableClientState(GL_COLOR_ARRAY);
-				glColorPointer(colorAttribute.numCoords, GL_FLOAT,
-						colorAttribute.stride,
-							   (void*)colorAttribute.offset);
+					#ifndef TARGET_WINRT
+					glEnableClientState(GL_COLOR_ARRAY);
+					glColorPointer(colorAttribute.numCoords, GL_FLOAT,
+							colorAttribute.stride,
+								   (void*)colorAttribute.offset);
+					#endif
 				#endif
 			}else{
 				colorAttribute.enable();
@@ -889,9 +895,11 @@ void ofVbo::bind() const{
 			if(!programmable){
 				normalAttribute.bind();
 				#ifndef TARGET_PROGRAMMABLE_GL
-				glEnableClientState(GL_NORMAL_ARRAY);
-				glNormalPointer(GL_FLOAT, normalAttribute.stride,
-								(void*)normalAttribute.offset);
+					#ifndef TARGET_WINRT
+						glEnableClientState(GL_NORMAL_ARRAY);
+						glNormalPointer(GL_FLOAT, normalAttribute.stride,
+										(void*)normalAttribute.offset);
+					#endif
 				#endif
 			}else{
 				normalAttribute.enable();
@@ -904,10 +912,12 @@ void ofVbo::bind() const{
 			if(!programmable){
 				texCoordAttribute.bind();
 				#ifndef TARGET_PROGRAMMABLE_GL
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glTexCoordPointer(texCoordAttribute.numCoords,
-								  GL_FLOAT, texCoordAttribute.stride,
-								  (void*)texCoordAttribute.offset);
+					#ifndef TARGET_WINRT
+						glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+						glTexCoordPointer(texCoordAttribute.numCoords,
+										  GL_FLOAT, texCoordAttribute.stride,
+										  (void*)texCoordAttribute.offset);
+					#endif
 				#endif
 			}else{
 				texCoordAttribute.enable();
@@ -938,15 +948,17 @@ void ofVbo::unbind() const{
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	if(!ofIsGLProgrammableRenderer()){
 		#ifndef TARGET_PROGRAMMABLE_GL
-		if(bUsingColors){
-			glDisableClientState(GL_COLOR_ARRAY);
-		}
-		if(bUsingNormals){
-			glDisableClientState(GL_NORMAL_ARRAY);
-		}
-		if(bUsingTexCoords){
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
+			#ifndef TARGET_WINRT
+				if(bUsingColors){
+					glDisableClientState(GL_COLOR_ARRAY);
+				}
+				if(bUsingNormals){
+					glDisableClientState(GL_NORMAL_ARRAY);
+				}
+				if(bUsingTexCoords){
+					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				}
+			#endif
 		#endif
 	}
 }

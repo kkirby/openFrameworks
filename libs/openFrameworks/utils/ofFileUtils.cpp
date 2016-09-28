@@ -1,5 +1,5 @@
 #include "ofFileUtils.h"
-#ifndef TARGET_WIN32
+#if !defined(TARGET_WIN32) && !defined(TARGET_WINRT)
 	#include <pwd.h>
 	#include <sys/stat.h>
 #endif
@@ -10,6 +10,26 @@
 #ifdef TARGET_OSX
 	#include <mach-o/dyld.h>       /* _NSGetExecutablePath */
 	#include <limits.h>        /* PATH_MAX */
+#endif
+
+#ifdef TARGET_WINRT
+	using namespace Windows::Storage;
+
+	string WinrtLocalDirPath(const string& path)
+	{
+		StorageFolder^ localDir = ApplicationData::Current->LocalFolder;
+		Platform::String^ localDirPath = localDir->Path;
+		string tempPath(localDirPath->Begin(), localDirPath->End());
+		string fileName = "\\" + ofFilePath::getFileName(path, false); //in case path is absolute;
+		return tempPath + fileName;
+	}
+
+	string WinrtLocalExePath() {
+		StorageFolder^ localExeDir = Windows::ApplicationModel::Package::Current->InstalledLocation;
+		Platform::String^ localExePath = localExeDir->Path;
+		string tempPath(localExePath->Begin(), localExePath->End());
+		return tempPath;
+	}
 #endif
 
 
@@ -558,7 +578,7 @@ string ofFile::getAbsolutePath() const {
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canRead() const {
 	auto perm = std::filesystem::status(myFile).permissions();
-#ifdef TARGET_WIN32
+#if defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	DWORD attr = GetFileAttributes(myFile.native().c_str());
 	if (attr == INVALID_FILE_ATTRIBUTES)
 	{
@@ -581,7 +601,7 @@ bool ofFile::canRead() const {
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canWrite() const {
 	auto perm = std::filesystem::status(myFile).permissions();
-#ifdef TARGET_WIN32
+#if defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	DWORD attr = GetFileAttributes(myFile.native().c_str());
 	if (attr == INVALID_FILE_ATTRIBUTES){
 		return false;
@@ -604,7 +624,7 @@ bool ofFile::canWrite() const {
 //------------------------------------------------------------------------------------------------------------
 bool ofFile::canExecute() const {
 	auto perm = std::filesystem::status(myFile).permissions();
-#ifdef TARGET_WIN32
+#if defined(TARGET_WIN32) || defined(TARGET_WINRT)
 	return getExtension() == "exe";
 #else
 	struct stat info;
@@ -1572,6 +1592,9 @@ string ofFilePath::getCurrentExePath(){
 		}else{
 			return string(executablePath.begin(), executablePath.begin() + result);
 		}
+	#elif defined(TARGET_WINRT)
+		string path = WinrtLocalExePath();
+		return path + "\\app.exe";
 	#endif
 	return "";
 }
@@ -1588,6 +1611,8 @@ string ofFilePath::getUserHomeDir(){
 		// USERPROFILE is the key on Windows 7 but it might be HOME
 		// in other flavours of windows...need to check XP and NT...
 		return ofGetEnv("USERPROFILE");
+	#elif defined(TARGET_WINRT)
+		return "";
 	#elif !defined(TARGET_EMSCRIPTEN)
 		struct passwd * pw = getpwuid(getuid());
 		return pw->pw_dir;

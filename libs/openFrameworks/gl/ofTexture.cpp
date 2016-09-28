@@ -464,7 +464,7 @@ void ofTexture::allocate(const ofTextureData & textureData, int glFormat, int pi
 		glTexParameterf(texData.textureTarget, GL_TEXTURE_WRAP_S, texData.wrapModeHorizontal);
 		glTexParameterf(texData.textureTarget, GL_TEXTURE_WRAP_T, texData.wrapModeVertical);
 
-		#ifndef TARGET_PROGRAMMABLE_GL
+		#if !defined(TARGET_PROGRAMMABLE_GL) && !defined(TARGET_WINRT)
 			if (!ofIsGLProgrammableRenderer()){
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			}
