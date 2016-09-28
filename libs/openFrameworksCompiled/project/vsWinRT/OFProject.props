@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <PROJECT_SRC>$(SolutionDir)..\src</PROJECT_SRC>
+    <PROJECT_LIBS>$(SolutionDir)..\..\lib</PROJECT_LIBS>
+    <OF_PATH>$(SolutionDir)..\..\lib\openFrameworks</OF_PATH>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>OFProject</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OF_PATH)\addons\ofxStateMachine\src;$(OF_PATH)\addons\ofxJsonxx\libs;$(OF_PATH)\addons\ofxJsonxx\src;$(OF_PATH)\addons\ofxTween\src;$(OF_PATH)\addons\ofxTween\src\Easings;$(PROJECT_SRC)\windows;$(PROJECT_SRC)\shared\view;$(PROJECT_SRC)\shared\util;$(PROJECT_SRC)\shared\geometry;$(PROJECT_SRC)\shared\filter\parameters;$(PROJECT_SRC)\shared\filter;$(PROJECT_SRC)\shared\ffmpeg;$(PROJECT_SRC)\shared\event;$(PROJECT_SRC)\shared\data;$(PROJECT_SRC)\shared\controller;$(PROJECT_SRC)\shared\camera;$(PROJECT_SRC)\shared;$(PROJECT_LIBS)\boost;$(PROJECT_LIBS)\ffmpeg\include;$(PROJECT_LIBS)\libpng\host\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="PROJECT_SRC">
+      <Value>$(PROJECT_SRC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="PROJECT_LIBS">
+      <Value>$(PROJECT_LIBS)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="OF_PATH">
+      <Value>$(OF_PATH)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
