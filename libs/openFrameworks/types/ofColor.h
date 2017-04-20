@@ -956,3 +956,58 @@ void ofColor_<PixelType>::copyFrom(const ofColor_<SrcType> & mom){
 		}
 	}
 }
+
+template <typename PixelType>
+ofColor_<PixelType> operator*(float val, const ofColor_<PixelType> &color) {
+	return color * val;
+}
+
+template<typename PixelType>
+inline float ofColor_<PixelType>::limit() {
+	return numeric_limits<PixelType>::max();
+}
+
+template<>
+inline float ofColor_<float>::limit() {
+	return 1.f;
+}
+
+template<>
+inline int ofColor_<unsigned char>::getHex() const {
+	return
+		((0xff & (unsigned char) r) << 16) |
+		((0xff & (unsigned char) g) << 8) |
+		((0xff & (unsigned char) b));
+}
+
+template<typename PixelType>
+inline int ofColor_<PixelType>::getHex() const {
+	return ((ofColor) *this).getHex();
+}
+
+template<>
+inline void ofColor_<unsigned char>::setHex(int hexColor, float alpha){
+	r = (hexColor >> 16) & 0xff;
+	g = (hexColor >> 8) & 0xff;
+	b = (hexColor >> 0) & 0xff;
+	a = alpha;
+}
+
+template<typename PixelType>
+inline void ofColor_<PixelType>::setHex (int hexColor, float alpha){
+	ofColor c = ofColor::fromHex(hexColor);
+	*this = c;
+	a = alpha;
+}
+
+
+extern template class ofColor_<char>;
+extern template class ofColor_<unsigned char>;
+extern template class ofColor_<short>;
+extern template class ofColor_<unsigned short>;
+extern template class ofColor_<int>;
+extern template class ofColor_<unsigned int>;
+extern template class ofColor_<long>;
+extern template class ofColor_<unsigned long>;
+extern template class ofColor_<float>;
+extern template class ofColor_<double>;
