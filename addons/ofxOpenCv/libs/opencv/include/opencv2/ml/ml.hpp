@@ -957,7 +957,7 @@ class CV_EXPORTS CvForestTree: public CvDTree
 public:
     CvForestTree();
     virtual ~CvForestTree();
-
+	using CvDTree::train;
     virtual bool train( CvDTreeTrainData* trainData, const CvMat* _subsample_idx, CvRTrees* forest );
 
     virtual int get_var_count() const {return data ? data->var_count : 0;}
@@ -1145,7 +1145,7 @@ class CV_EXPORTS CvBoostTree: public CvDTree
 public:
     CvBoostTree();
     virtual ~CvBoostTree();
-
+	using CvDTree::train;
     virtual bool train( CvDTreeTrainData* trainData,
                         const CvMat* subsample_idx, CvBoost* ensemble );
 
