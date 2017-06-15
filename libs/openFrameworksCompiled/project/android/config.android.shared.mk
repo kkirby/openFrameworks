@@ -66,7 +66,7 @@ ifndef $(NDK_PLATFORM)
 endif
 
 ifndef $(SDK_TARGET)
-	SDK_TARGET = android-22
+	SDK_TARGET = android-23
 endif
 
 ifndef $(GCC_VERSION)
