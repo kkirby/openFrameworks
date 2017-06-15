@@ -219,7 +219,7 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 			}
 			try {
 				if (Build.VERSION.SDK_INT >= 11) {
-					camera.setPreviewTexture(surfaceTexture);
+					camera.setPreviewTexture(null);
 				}
 			} catch (Exception e) {
 			}

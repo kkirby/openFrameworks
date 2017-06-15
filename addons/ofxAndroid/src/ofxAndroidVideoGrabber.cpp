@@ -132,6 +132,7 @@ ofxAndroidVideoGrabber::~ofxAndroidVideoGrabber(){
 
 void ofxAndroidVideoGrabber::Data::onAppPause(){
 	appPaused = true;
+	texture.clear();
 	glDeleteTextures(1, &texture.texData.textureID);
 	texture.texData.textureID = 0;
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofPauseVideoGrabbers(): releasing textures";
@@ -221,7 +222,9 @@ void ofxAndroidVideoGrabber::update(){
 
 void ofxAndroidVideoGrabber::close(){
 	// Release texture
+	data->texture.clear();
 	glDeleteTextures(1, &data->texture.texData.textureID);
+	data->texture.texData.textureID = 0;
 
     JNIEnv *env = ofGetJNIEnv();
     jclass javaClass = getJavaClass();
