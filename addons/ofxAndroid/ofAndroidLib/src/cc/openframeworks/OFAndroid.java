@@ -1017,9 +1017,12 @@ public class OFAndroid {
 	public static boolean unpackingDone;
 
     public static native boolean hasNeon();
-	 
-    static {
-        
+	
+	
+	private static boolean libraryLoaded = false;
+	public static void initLibrary(){
+		if(libraryLoaded)return;
+		libraryLoaded = true;
         Log.i("OF","static init");
         
         try {
@@ -1044,8 +1047,7 @@ public class OFAndroid {
                 System.loadLibrary("OFAndroidApp");
             }
         }
-        Log.i("OF","initializing app");
-    }
+	}
 
 	public static SurfaceView getGLContentView() {
         return mGLView;
