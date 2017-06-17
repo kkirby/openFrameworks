@@ -24,6 +24,9 @@ ofxAndroid/ofAndroidLib/gen
 !ofxEmscripten
 !ofxUnitTests
 !ofxProjectGenerator
+!ofxStateMachine
+!ofxTween
+!ofxJsonxx
 
 # don't ignore the .gitignore file
 !.gitignore
