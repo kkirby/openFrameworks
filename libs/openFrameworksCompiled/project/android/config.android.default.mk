@@ -33,7 +33,7 @@ include $(OF_ROOT)/libs/openFrameworksCompiled/project/android/paths.make
 ARCH = android
 
 ifndef ABIS_TO_COMPILE_RELEASE
-	ABIS_TO_COMPILE_RELEASE = armv7 neon x86
+	ABIS_TO_COMPILE_RELEASE = armv7
 endif
 
 ifndef ABIS_TO_COMPILE_DEBUG
@@ -71,8 +71,14 @@ ifndef $(GCC_VERSION)
 	GCC_VERSION = 4.9
 endif
 
-PROJECT_PATH=$(PWD)
+ifndef ANDROID_LIB_OUTPUT_PATH
+	ANDROID_LIB_OUTPUT_PATH = libs
+endif
 
+ifndef ANDROID_FRAMEWORK_OUTPUT_PATH 
+	ANDROID_FRAMEWORK_OUTPUT_PATH = output/$(BIN_NAME)
+endif
+ANDROID_FRAMEWORK_OUTPUT = $(ANDROID_FRAMEWORK_OUTPUT_PATH)/$(APPNAME)
 
 ifeq ($(ABI),x86)
 ANDROID_PREFIX=i686-linux-android-
@@ -113,36 +119,30 @@ RESFILE=$(RESNAME).zip
 
 ifeq ($(ABI),armv7)
 	ABI_PATH = armeabi-v7a
-	PLATFORM_PROJECT_RELEASE_TARGET = libs/$(ABI_PATH)/libOFAndroidApp.so
-	PLATFORM_PROJECT_DEBUG_TARGET = libs/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
 endif
 
 ifeq ($(ABI),armv5)
 	ABI_PATH = armeabi
-	PLATFORM_PROJECT_RELEASE_TARGET = libs/$(ABI_PATH)/libOFAndroidApp.so
-	PLATFORM_PROJECT_DEBUG_TARGET = libs/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
 endif
 
 ifeq ($(ABI),neon)
 	ABI_PATH = armeabi-v7a
-	PLATFORM_PROJECT_RELEASE_TARGET = libs/$(ABI_PATH)/libOFAndroidApp_neon.so
-	PLATFORM_PROJECT_DEBUG_TARGET = libs/$(ABI_PATH)/libOFAndroidApp_neon.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_neon.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_neon.so
 endif
 
 ifeq ($(ABI),x86)
 	ABI_PATH = x86
-    PLATFORM_PROJECT_RELEASE_TARGET = libs/$(ABI_PATH)/libOFAndroidApp_x86.so
-    PLATFORM_PROJECT_DEBUG_TARGET = libs/$(ABI_PATH)/libOFAndroidApp_x86.so
+    PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_x86.so
+    PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_x86.so
 endif
 
 PLATFORM_CORELIB_RELEASE_TARGET = $(OF_CORE_LIB_PATH)/$(ABI)/libopenFrameworks.a
 PLATFORM_CORELIB_DEBUG_TARGET = $(OF_CORE_LIB_PATH)/$(ABI)/libopenFrameworksDebug.a
-
-
-# add OF_USING_MPG123 define IF we have it defined as a system library
-#ifeq ($(HAS_SYSTEM_MPG123),0)
-#    PLATFORM_DEFINES += OF_USING_MPG123
-#endif
 
 ################################################################################
 # PLATFORM REQUIRED ADDON
@@ -158,7 +158,7 @@ PLATFORM_CORELIB_DEBUG_TARGET = $(OF_CORE_LIB_PATH)/$(ABI)/libopenFrameworksDebu
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 
-PLATFORM_REQUIRED_ADDONS = ofxAndroid
+PLATFORM_REQUIRED_ADDONS = ofxAndroid ofxAccelerometer
 
 ################################################################################
 # PLATFORM CFLAGS
@@ -175,7 +175,6 @@ PLATFORM_CFLAGS = -Wall -std=c++14
 
 # Code Generation Option Flags (http://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html)
 PLATFORM_CFLAGS += -nostdlib --sysroot=$(SYSROOT) -fno-short-enums -ffunction-sections -fdata-sections
-
 
 ifeq ($(ABI),armv7)
 	PLATFORM_CFLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16
@@ -297,9 +296,7 @@ PROJECT_EXCLUSIONS += ./res
 PROJECT_EXCLUSIONS += ./res/%
 PROJECT_EXCLUSIONS += ./assets
 PROJECT_EXCLUSIONS += ./assets/%
-PROJECT_EXCLUSIONS += ./libs
-
-
+PROJECT_EXCLUSIONS += $(ANDROID_LIB_OUTPUT_PATH)
 
 ################################################################################
 # PLATFORM HEADER SEARCH PATHS
@@ -375,11 +372,6 @@ PLATFORM_SHARED_LIBRARIES =
 #openframeworks core third party
 PLATFORM_PKG_CONFIG_LIBRARIES =
 
-# conditionally add mpg123
-#ifeq ($(HAS_SYSTEM_MPG123),0)
-#    PLATFORM_PKG_CONFIG_LIBRARIES += libmpg123
-#endif
-
 ################################################################################
 # PLATFORM LIBRARY SEARCH PATHS
 #   These are library search paths that are platform specific and are specified 
@@ -395,212 +387,49 @@ PLATFORM_PKG_CONFIG_LIBRARIES =
 
 PLATFORM_LIBRARY_SEARCH_PATHS =
 
-################################################################################
-# PLATFORM FRAMEWORKS
-#   These are a list of platform frameworks.  
-#   These are used exclusively with Darwin/OSX.
-#
-#   Note: Leave a leading space when adding list items with the += operator
-################################################################################
-#PLATFORM_FRAMEWORKS =
+ANDROID_BIN = $(NDK_ROOT)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_PLATFORM)/bin
+PLATFORM_CC=$(ANDROID_BIN)/$(ANDROID_PREFIX)gcc
+PLATFORM_CXX=$(ANDROID_BIN)/$(ANDROID_PREFIX)g++
+PLATFORM_AR=$(ANDROID_BIN)/$(ANDROID_PREFIX)ar
 
-################################################################################
-# PLATFORM FRAMEWORK SEARCH PATHS
-#   These are a list of platform framework search paths.  
-#   These are used exclusively with Darwin/OSX.
-#
-#   Note: Leave a leading space when adding list items with the += operator
-################################################################################
-#PLATFORM_FRAMEWORKS_SEARCH_PATHS =
+ifeq ($(HOST_PLATFORM),windows)
+	ANDROID_EXEC = cmd //c $(SDK_ROOT)/tools/android.bat
+	ZIP_EXEC = cmd //c $(subst /,\\,$(OF_LIBS_PATH)/openFrameworksCompiled/project/android/windows/zip)
+else
+	ANDROID_EXEC = $(SDK_ROOT)/tools/android
+	ZIP_EXEC = zip
+endif
 
-################################################################################
-# LOW LEVEL CONFIGURATION BELOW
-#   The following sections should only rarely be modified.  They are meant for 
-#   developers who need fine control when, for instance, creating a platform 
-#   specific makefile for a new openFrameworks platform, such as raspberry pi. 
-################################################################################
-
-################################################################################
-# PLATFORM CONFIGURATIONS
-# These will override the architecture vars generated by configure.platform.make
-################################################################################
-#PLATFORM_ARCH =
-#PLATFORM_OS =
-#PLATFORM_LIBS_PATH =
-
-################################################################################
-# PLATFORM CXX
-#    Don't want to use a default compiler?
-################################################################################
-#PLATFORM_CXX=
-
-PLATFORM_CC=$(NDK_ROOT)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_PLATFORM)/bin/$(ANDROID_PREFIX)gcc
-PLATFORM_CXX=$(NDK_ROOT)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_PLATFORM)/bin/$(ANDROID_PREFIX)g++
-PLATFORM_AR=$(NDK_ROOT)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_PLATFORM)/bin/$(ANDROID_PREFIX)ar
-
-#ifeq (,$(findstring MINGW32_NT,$(shell uname)))
-ZIPWINDOWS=..\\..\\..\\..\\..\\libs\\openFrameworksCompiled\\project\\android\\windows\\zip -r ../../res/raw/$(RESFILE)
-#endif
-
-afterplatform:$(RESFILE)
-	@if [ -f obj/$(BIN_NAME) ]; then rm obj/$(BIN_NAME); fi
-	
-	@echo copying debugging binaries for $(ABIS_TO_COMPILE)
-	@if [ "$(findstring neon,$(ABIS_TO_COMPILE))" = "neon" ]; then \
-		cp $(OF_ROOT)/libs/openFrameworksCompiled/project/android/libneondetection.so libs/armeabi-v7a/; \
-		cp $(NDK_ROOT)/prebuilt/android-arm/gdbserver/gdbserver libs/armeabi-v7a; \
-	fi
-	
-	@if [ "$(findstring armv5,$(ABIS_TO_COMPILE))" = "armv5" ]; then \
-		cp $(NDK_ROOT)/prebuilt/android-arm/gdbserver/gdbserver libs/armeabi; \
-	fi
-	
-	@if [ "$(findstring armv7,$(ABIS_TO_COMPILE))" = "armv7" ]; then \
-		cp $(NDK_ROOT)/prebuilt/android-arm/gdbserver/gdbserver libs/armeabi-v7a; \
-	fi
-	
-	@if [ "$(findstring armv7,$(ABIS_TO_COMPILE))" = "x86" ]; then \
-		cp $(NDK_ROOT)/prebuilt/android-x86/gdbserver/gdbserver libs/x86; \
-	fi
-	
-	
-	@if [ "$(findstring armv5,$(ABIS_TO_COMPILE))" = "armv5" ]; then \
-		echo create gdb.setup for armeabi; \
-		echo "set solib-search-path $(PWD)/obj/local/armeabi:$(PWD)/libs/armeabi" > libs/armeabi/gdb.setup; \
-		echo "set sysroot $(SYSROOT)" >> libs/armeabi/gdb.setup; \
-		echo "directory $(NDK_ROOT)/platforms/$(NDK_PLATFORM)/arch-arm/usr/include" >> libs/armeabi/gdb.setup; \
-		echo "directory $(PWD)/src" >> libs/armeabi/gdb.setup; \
-		echo "directory $(NDK_ROOT)/sources/cxx-stl/system" >> libs/armeabi/gdb.setup; \
-		echo "directory $(PWD)/libs/armeabi" >> libs/armeabi/gdb.setup; \
-		echo "" >> libs/armeabi/gdb.setup; \
-	fi
-	
-	@if [ "$(findstring armv7,$(ABIS_TO_COMPILE))" = "armv7" ]; then \
-		echo create gdb.setup for armeabi-v7a; \
-		echo "set solib-search-path $(PWD)/obj/local/armeabi-v7a:$(PWD)/libs/armeabi-v7a" > libs/armeabi-v7a/gdb.setup; \
-		echo "set sysroot $(SYSROOT)" >> libs/armeabi-v7a/gdb.setup; \
-		echo "directory $(NDK_ROOT)/platforms/$(NDK_PLATFORM)/arch-arm/usr/include" >> libs/armeabi-v7a/gdb.setup; \
-		echo "directory $(PWD)/src" >> libs/armeabi-v7a/gdb.setup; \
-		echo "directory $(NDK_ROOT)/sources/cxx-stl/system" >> libs/armeabi-v7a/gdb.setup; \
-		echo "directory $(PWD)/libs/armeabi-v7a" >> libs/armeabi-v7a/gdb.setup ; \
-		echo "" >> libs/armeabi-v7a/gdb.setup; \
-	fi
-	
-	@if [ "$(findstring x86,$(ABIS_TO_COMPILE))" = "x86" ]; then \
-		echo create gdb.setup for x86; \
-		echo "set solib-search-path $(PWD)/obj/local/x86:$(PWD)/libs/x86" > libs/x86/gdb.setup; \
-		echo "set sysroot $(SYSROOT)" >> libs/x86/gdb.setup; \
-		echo "directory $(NDK_ROOT)/platforms/$(NDK_PLATFORM)/arch-arm/usr/include" >> libs/x86/gdb.setup; \
-		echo "directory $(PWD)/src" >> libs/x86/gdb.setup; \
-		echo "directory $(NDK_ROOT)/sources/cxx-stl/system" >> libs/x86/gdb.setup; \
-		echo "directory $(PWD)/libs/x86" >> libs/x86/gdb.setup ; \
-		echo "" >> libs/x86/gdb.setup; \
-	fi
-	
-	@echo creating Android.mk and Application.mk
-	@if [ ! -d jni ]; then mkdir jni; fi
-	@ABIS=""; \
-	if [ "$(findstring armv5,$(ABIS_TO_COMPILE))" = "armv5" ]; then \
-		ABIS="$$ABIS armeabi"; \
+afterplatform:
+	@$(ANDROID_EXEC) update project --target $(SDK_TARGET) --path "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"
+	@if [ ! -d "$(ANDROID_FRAMEWORK_OUTPUT)" ]; then \
+		echo "Creating lib project."; \
+		$(ANDROID_EXEC) create lib-project -t $(SDK_TARGET) -n $(APPNAME) -k $(PROJECT_BUNDLE_ID) -p $(ANDROID_FRAMEWORK_OUTPUT); \
+		echo "android.library.reference.1=ofAndroidLib" >> "$(ANDROID_FRAMEWORK_OUTPUT)/project.properties"; \
 	else \
-		rm -r libs/armeabi 2> /dev/null; \
-	fi; \
-	if [ "$(findstring armv7,$(ABIS_TO_COMPILE))" = "armv7" ] && [ "$(findstring neon,$(ABIS_TO_COMPILE))" = "neon" ]; then \
-		ABIS="$$ABIS armeabi-v7a"; \
-	elif [ "$(findstring armv7,$(ABIS_TO_COMPILE))" = "armv7" ]; then \
-		ABIS="$$ABIS armeabi-v7a"; \
-		rm libs/armeabi-v7a/libOFAndroidApp_neon.so 2> /dev/null; \
-		rm libs/armeabi-v7a/libneondetection.so 2> /dev/null; \
-	elif [ "$(findstring neon,$(ABIS_TO_COMPILE))" = "neon" ]; then \
-		ABIS="$$ABIS armeabi-v7a"; \
-		rm libs/armeabi-v7a/libOFAndroidApp.so 2> /dev/null; \
-	else \
-		rm -r libs/armeabi-v7a 2> /dev/null; \
-	fi; \
-	if [ "$(findstring x86,$(ABIS_TO_COMPILE))" = "x86" ]; then \
-		ABIS="$$ABIS x86"; \
-	else \
-		rm -r libs/x86 2> /dev/null; \
-	fi; \
-	echo "APP_ABI := $$ABIS" > jni/Application.mk; \
-	echo "LOCAL_MODULE := OFAndroidApp" > jni/Android.mk
-		
-	
-	
-	#@echo updating ofAndroidLib project
-	#@cd $(OF_ROOT)/addons/ofxAndroid/ofAndroidLib; \
-	#if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-	#	cmd //c $(SDK_ROOT)/tools/android.bat update project --target $(SDK_TARGET) --path .; \
-	#else \
-	#	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
-	#fi
-	
-	#@echo updating current project
-	#@cd $(PROJECT_PATH); \
-	#if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-	#	cmd //c $(SDK_ROOT)/tools/android.bat update project --target $(SDK_TARGET) --path .; \
-	#else \
-	#	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
-	#fi
-	
-$(RESFILE): $(DATA_FILES)
-	@echo compressing and copying resources from bin/data into res
-	cd "$(PROJECT_PATH)"; \
-	if [ -d "bin/data" ]; then \
-		mkdir -p res/raw; \
-		rm res/raw/$(RESNAME).zip; \
+		echo "Updating lib project."; \
+		$(ANDROID_EXEC) update lib-project -t $(SDK_TARGET) -p $(ANDROID_FRAMEWORK_OUTPUT); \
+	fi
+	@if [ ! -d "$(ANDROID_FRAMEWORK_OUTPUT)/jni" ]; then \
+		echo "Creating JNI folder."; \
+		mkdir $(ANDROID_FRAMEWORK_OUTPUT)/jni; \
+		echo "APP_ABI := $$ABIS" > "$(ANDROID_FRAMEWORK_OUTPUT)/jni/Application.mk"; \
+		echo "LOCAL_MODULE := OFAndroidApp" > "$(ANDROID_FRAMEWORK_OUTPUT)/jni/Android.mk"; \
+	fi
+	@if [ ! -d "$(ANDROID_FRAMEWORK_OUTPUT)/ofAndroidLib" ]; then \
+		echo "Copying ofAndroidLib"; \
+		cp -r "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib" "$(ANDROID_FRAMEWORK_OUTPUT)/ofAndroidLib"; \
+	fi
+	@rm -rf "$(ANDROID_FRAMEWORK_OUTPUT)/libs"
+	@cp -r "$(ANDROID_LIB_OUTPUT_PATH)" "$(ANDROID_FRAMEWORK_OUTPUT)/libs"
+	@if [ -d "bin/data" ]; then \
+		echo "Archiving data."; \
+		mkdir -p "$(ANDROID_FRAMEWORK_OUTPUT)/res/raw"; \
+		rm "$(ANDROID_FRAMEWORK_OUTPUT)/res/raw/$(RESNAME).zip"; \
 		cd bin/data; \
-		if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-			echo "Windows Platform. Running Zip..."; \
-			cmd //c $(ZIPWINDOWS) * && exit; \
-		else \
-			zip -r ../../res/raw/$(RESNAME).zip *; \
-		fi; \
-		cd ../..; \
+		$(ZIP_EXEC) -r "../../$(ANDROID_FRAMEWORK_OUTPUT)/res/raw/$(RESNAME).zip" *; \
 	fi
-
-install:	
-	cd "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"; \
-	echo installing on $(HOST_PLATFORM); \
-	if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-	cmd //c $(SDK_ROOT)/tools/android.bat update project --target $(SDK_TARGET) --path .; \
-	else \
-	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
-	fi 
-	cd "$(PROJECT_PATH)"; \
-	if [ -d "bin/data" ]; then \
-		mkdir -p res/raw; \
-		rm res/raw/$(RESNAME).zip; \
-		cd bin/data; \
-		if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-			echo "Windows Platform. Running Zip..."; \
-			cmd //c $(ZIPWINDOWS) * && exit; \
-		else \
-			zip -r ../../res/raw/$(RESNAME).zip; *; \
-		fi; \
-		cd ../..; \
-	fi 
-	if [ -f obj/$(BIN_NAME) ]; then rm obj/$(BIN_NAME); fi
-	#touch AndroidManifest.xml
-	if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-	cmd //c $(SDK_ROOT)/tools/android.bat update project --target $(SDK_TARGET) --path .; \
-	else \
-	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
+	@if [ -d "javaSrc" ]; then \
+		echo "Copying java src."; \
+		cp -r javaSrc/* "$(ANDROID_FRAMEWORK_OUTPUT)/src/"; \
 	fi
-	
-	#rm -r $(addprefix bin/,$(shell ls bin/ | grep -v ^data$))
-	
-	if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-	#$(ANT_BIN)/ant clean; \
-	$(ANT_BIN)/ant debug install; \
-	else \
-	#ant clean; \
-	ant debug install; \
-	fi
-	cp bin/OFActivity-debug.apk bin/$(APPNAME).apk
-	#if [ "$(shell $(SDK_ROOT)/platform-tools/adb get-state)" = "device" ]; then
-	#$(SDK_ROOT)/platform-tools/adb uninstall $(PKGNAME)
-	$(SDK_ROOT)/platform-tools/adb install -r bin/$(APPNAME).apk;
-	#fi
-	$(SDK_ROOT)/platform-tools/adb shell am start -a android.intent.action.MAIN -n $(PKGNAME)/$(PKGNAME).OFActivity
-	
