@@ -343,6 +343,7 @@ void
 Java_cc_openframeworks_OFAndroid_render( JNIEnv*  env, jclass  thiz )
 {
 
+	//if(paused || surfaceDestroyed) return;
 
 	if(!threadedTouchEvents){
 		mtx.lock();
