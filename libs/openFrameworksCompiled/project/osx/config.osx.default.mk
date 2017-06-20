@@ -86,7 +86,7 @@ PLATFORM_CFLAGS += -Wall
 # Code Generation Option Flags (http://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html)
 PLATFORM_CFLAGS += -fexceptions
 
-ifeq ($(shell xcode-select -print-path 2> /dev/null; echo $$?),0)
+ifeq ($(shell xcode-select -print-path > /dev/null 2>&1; echo $$?),0)
 	MAC_OS_XCODE_ROOT=$(shell xcode-select -print-path)
 
 	MAC_OS_SDK_PATH=$(MAC_OS_XCODE_ROOT)/Platforms/MacOSX.platform/Developer/SDKs
