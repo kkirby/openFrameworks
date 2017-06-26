@@ -12,6 +12,29 @@
 #include "ofUtils.h"
 #include "ofVideoGrabber.h"
 
+struct ofxAndroidVideoGrabber::Data{
+	bool bIsFrameNew;
+	bool bGrabberInited;
+	bool bUsePixels;
+	int width;
+	int height;
+	ofPixelFormat internalPixelFormat;
+	bool bNewBackFrame;
+	ofPixels frontBuffer, backBuffer;
+	ofTexture texture;
+	jfloatArray matrixJava;
+	int cameraId;
+	bool appPaused;
+	bool newPixels;
+	int attemptFramerate;
+	jobject javaVideoGrabber;
+
+	Data();
+	~Data();
+	void onAppPause();
+	void onAppResume();
+	void loadTexture();
+};
 
 map<int,weak_ptr<ofxAndroidVideoGrabber::Data>> & instances(){
 	static auto * instances = new map<int,weak_ptr<ofxAndroidVideoGrabber::Data>>;
@@ -43,7 +66,6 @@ ofxAndroidVideoGrabber::Data::Data()
 ,newPixels(false)
 ,attemptFramerate(-1)
 ,bUsePixels(true)
-,bSetRecordingHint(true)
 ,javaVideoGrabber(nullptr){
 	JNIEnv *env = ofGetJNIEnv();
 
@@ -132,7 +154,6 @@ ofxAndroidVideoGrabber::~ofxAndroidVideoGrabber(){
 
 void ofxAndroidVideoGrabber::Data::onAppPause(){
 	appPaused = true;
-	texture.clear();
 	glDeleteTextures(1, &texture.texData.textureID);
 	texture.texData.textureID = 0;
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofPauseVideoGrabbers(): releasing textures";
@@ -146,13 +167,13 @@ void ofxAndroidVideoGrabber::Data::onAppResume(){
 		return;
 	}
 	jclass javaClass = getJavaClass();
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
 	loadTexture();
 
 	int texID= texture.texData.textureID;
 	int w=texture.texData.width;
 	int h=texture.texData.height;
-	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID,bUsePixels,bSetRecordingHint);
+	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID);
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofResumeVideoGrabbers(): textures allocated";
 	appPaused = false;
 }
@@ -205,9 +226,7 @@ void ofxAndroidVideoGrabber::update(){
 
 void ofxAndroidVideoGrabber::close(){
 	// Release texture
-	data->texture.clear();
 	glDeleteTextures(1, &data->texture.texData.textureID);
-	data->texture.texData.textureID = 0;
 
     JNIEnv *env = ofGetJNIEnv();
     jclass javaClass = getJavaClass();
@@ -271,18 +290,9 @@ bool ofxAndroidVideoGrabber::initCamera(){
 
 	jclass javaClass = getJavaClass();
 
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZZ)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
 	if(data->javaVideoGrabber && javaInitGrabber){
-		env->CallVoidMethod(
-			data->javaVideoGrabber,
-			javaInitGrabber,
-			data->width,
-			data->height,
-			data->attemptFramerate,
-			data->texture.texData.textureID,
-			data->bUsePixels,
-			data->bSetRecordingHint
-		);
+		env->CallVoidMethod(data->javaVideoGrabber,javaInitGrabber,data->width,data->height,data->attemptFramerate,data->texture.texData.textureID);
 	} else {
 		ofLogError("ofxAndroidVideoGrabber") << "initGrabber(): couldn't get OFAndroidVideoGrabber init grabber method";
 		return false;
@@ -303,10 +313,6 @@ void ofxAndroidVideoGrabber::videoSettings(){
 
 void ofxAndroidVideoGrabber::setUsePixels(bool usePixels){
 	data->bUsePixels = usePixels;
-}
-
-void ofxAndroidVideoGrabber::setRecordingHint(bool setRecordingHint){
-	data->bSetRecordingHint = setRecordingHint;
 }
 
 ofPixels& ofxAndroidVideoGrabber::getPixels(){
@@ -442,6 +448,10 @@ bool ofxAndroidVideoGrabber::setPixelFormat(ofPixelFormat pixelFormat){
 
 ofPixelFormat ofxAndroidVideoGrabber::getPixelFormat() const{
 	return data->internalPixelFormat;
+}
+
+jobject ofxAndroidVideoGrabber::getJavaVideoGrabber(){
+	return data->javaVideoGrabber;
 }
 
 // Conversion from yuv nv21 to rgb24 adapted from

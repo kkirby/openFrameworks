@@ -30,7 +30,6 @@ public:
 	const ofPixels&	getPixels() const;
 
 	void setUsePixels(bool usePixels);
-	void setRecordingHint(bool setRecordingHint);
 
 	void close();
 
@@ -79,33 +78,10 @@ public:
 	ofTexture *	getTexturePtr();
 
 	bool supportsTextureRendering();
-
-	struct Data {
-		bool bIsFrameNew;
-		bool bGrabberInited;
-		bool bUsePixels;
-		bool bSetRecordingHint;
-		int width;
-		int height;
-		ofPixelFormat internalPixelFormat;
-		bool bNewBackFrame;
-		ofPixels frontBuffer, backBuffer;
-		ofTexture texture;
-		jfloatArray matrixJava;
-		int cameraId;
-		bool appPaused;
-		bool newPixels;
-		int attemptFramerate;
-		jobject javaVideoGrabber;
-
-		Data();
-		~Data();
-		void onAppPause();
-		void onAppResume();
-		void loadTexture();
-	};
 	
-	shared_ptr<Data> data;
+	jobject getJavaVideoGrabber();
+
+	struct Data;
 private:
 	int getCameraFacing(int facing)const;
 
@@ -116,4 +92,5 @@ private:
 
 	// only to be used internally to resize;
 	ofPixelsRef getAuxBuffer();
+	shared_ptr<Data> data;
 };

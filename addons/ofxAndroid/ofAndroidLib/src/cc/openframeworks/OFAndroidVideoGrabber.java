@@ -422,7 +422,9 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 	
 	public static native int newFrame(byte[] data, int width, int height, int cameraId);
 	
-	
+	public Camera getCamera(){
+		return camera;
+	}
 
 	public Camera camera;
 	private int deviceID = -1;
