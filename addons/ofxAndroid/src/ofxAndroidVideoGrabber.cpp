@@ -154,6 +154,7 @@ ofxAndroidVideoGrabber::~ofxAndroidVideoGrabber(){
 
 void ofxAndroidVideoGrabber::Data::onAppPause(){
 	appPaused = true;
+	texture.clear();
 	glDeleteTextures(1, &texture.texData.textureID);
 	texture.texData.textureID = 0;
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofPauseVideoGrabbers(): releasing textures";
@@ -167,13 +168,13 @@ void ofxAndroidVideoGrabber::Data::onAppResume(){
 		return;
 	}
 	jclass javaClass = getJavaClass();
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZ)V");
 	loadTexture();
 
 	int texID= texture.texData.textureID;
 	int w=texture.texData.width;
 	int h=texture.texData.height;
-	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID);
+	env->CallVoidMethod(javaVideoGrabber,javaInitGrabber,w,h,attemptFramerate,texID,bUsePixels);
 	ofLogVerbose("ofxAndroidVideoGrabber") << "ofResumeVideoGrabbers(): textures allocated";
 	appPaused = false;
 }
@@ -226,7 +227,9 @@ void ofxAndroidVideoGrabber::update(){
 
 void ofxAndroidVideoGrabber::close(){
 	// Release texture
+	data->texture.clear();
 	glDeleteTextures(1, &data->texture.texData.textureID);
+	data->texture.texData.textureID = 0;
 
     JNIEnv *env = ofGetJNIEnv();
     jclass javaClass = getJavaClass();
@@ -289,10 +292,18 @@ bool ofxAndroidVideoGrabber::initCamera(){
 	if(!env) return false;
 
 	jclass javaClass = getJavaClass();
-
-	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIII)V");
+	ofLogVerbose("ofxAndroidVideoGrabber") << "usePixels: " << (data->bUsePixels ? "YES" : "NO");
+	jmethodID javaInitGrabber = env->GetMethodID(javaClass,"initGrabber","(IIIIZ)V");
 	if(data->javaVideoGrabber && javaInitGrabber){
-		env->CallVoidMethod(data->javaVideoGrabber,javaInitGrabber,data->width,data->height,data->attemptFramerate,data->texture.texData.textureID);
+		env->CallVoidMethod(
+			data->javaVideoGrabber,
+			javaInitGrabber,
+			data->width,
+			data->height,
+			data->attemptFramerate,
+			data->texture.texData.textureID,
+			data->bUsePixels
+		);
 	} else {
 		ofLogError("ofxAndroidVideoGrabber") << "initGrabber(): couldn't get OFAndroidVideoGrabber init grabber method";
 		return false;

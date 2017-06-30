@@ -84,10 +84,6 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 	}
 	
 	public void initGrabber(int w, int h, int _targetFps, int _texID, boolean _usePixelData){
-		initGrabber(w,h,_targetFps,_texID,_usePixelData,true);
-	}
-	
-	public void initGrabber(int w, int h, int _targetFps, int _texID, boolean _usePixelData, boolean _setRecordingHint){
 		if(camera != null){
 			camera.release();
 		}
@@ -112,7 +108,6 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 		}
 		
 		usePixelData = _usePixelData;
-		setRecordingHint = _setRecordingHint;
 
 		Camera.Parameters config = camera.getParameters();
 		
@@ -148,14 +143,12 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 		config.setPictureSize(w, h);
 		config.setPreviewSize(w, h);
 		config.setPreviewFormat(ImageFormat.NV21);
-		if(setRecordingHint){
-			try {
-				Method setRecordingHintMethod = config.getClass().getMethod("setRecordingHint",boolean.class);
-				setRecordingHintMethod.invoke(config, true);
-			}
-			catch(Exception e){
-				Log.i("OF","couldn't set recording hint");
-			}
+		try {
+			Method setRecordingHintMethod = config.getClass().getMethod("setRecordingHint",boolean.class);
+			setRecordingHintMethod.invoke(config, true);
+		}
+		catch(Exception e){
+			Log.i("OF","couldn't set recording hint");
 		}
 		width = config.getPreviewSize().width;
 		height = config.getPreviewSize().height;
@@ -432,7 +425,7 @@ public class OFAndroidVideoGrabber extends OFAndroidObject implements Runnable, 
 	private boolean bufferFlipFlip = false;
 	private int width, height, targetFps;
 	private int texID;
-	private boolean usePixelData, setRecordingHint;
+	private boolean usePixelData;
 	private Thread thread;
 	private int instanceId;
 	private static int nextId=0;
