@@ -63,8 +63,8 @@
 				framerate = maxFrameRate;
 			}
 			//TODO: this crashes on some devices ( Orbecc Astra Pro )
-			device.activeVideoMinFrameDuration = CMTimeMake(1, framerate);
-			device.activeVideoMaxFrameDuration = CMTimeMake(1, framerate);
+			//device.activeVideoMinFrameDuration = CMTimeMake(1, framerate);
+			//device.activeVideoMaxFrameDuration = CMTimeMake(1, framerate);
 			[device unlockForConfiguration];
 		} else {
 			NSLog(@"OSXVideoGrabber Init Error: %@", error);
