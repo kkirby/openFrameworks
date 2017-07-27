@@ -28,6 +28,16 @@ ofxCarousel::ofxCarousel(){
 	friction = 0.96;
 	bounce = 0.86;
 	elastic = 0.5;
+	pagingSize = 0.0;
+
+	stretched = 0.0;
+	grabReference = 0.0;
+	moveTarget = 0.0;
+	moveOffset = 0.0;
+	animateTime = 0.0;
+	animateDuration = 0.0;
+	animateBegin = 0.0;
+	animateDelta = 0.0;
 
 	updateState = 0;
 }
@@ -62,10 +72,6 @@ void ofxCarousel::drop(){
 	if(pagingSize > 0){
 		float weight = (velocity == 0 ? 0 : velocity / fabsf(velocity) * 0.5);
 		float nearest = roundf(position / pagingSize + weight) * pagingSize;
-		ofLogVerbose("ofxCarousel") << nearest << "/" << length << "/" << nearest + pagingSize;
-		if(nearest + pagingSize >= length){
-			nearest = length - pagingSize;
-		}
 		this->move(nearest - position, 0.5);
 	}
 	else {
@@ -103,9 +109,9 @@ void ofxCarousel::updateMove(){
 			position = 0 + stretched;
 			velocity = 0;
 		}
-		else if(position > length - pagingSize){
+		else if(position > length){
 			stretched += velocity * elastic;
-			position = length - pagingSize + stretched;
+			position = length + stretched;
 			velocity = 0;
 		}
 		else {
