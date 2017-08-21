@@ -45,6 +45,8 @@ class OFEGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
         EGL10.EGL_GREEN_SIZE, 4,
         EGL10.EGL_BLUE_SIZE, 4,
         EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+	    EGL10.EGL_SAMPLE_BUFFERS, 1,
+		EGL10.EGL_SAMPLES, 4,
         EGL10.EGL_NONE
     };
 
