@@ -28,6 +28,7 @@ ofxAndroid/ofAndroidLib/gen
 !ofxTween
 !ofxJsonxx
 !ofxCarousel
+!ofxTrueTypeFontUL2
 
 # don't ignore the .gitignore file
 !.gitignore
