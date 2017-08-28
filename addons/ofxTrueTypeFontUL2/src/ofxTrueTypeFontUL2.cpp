@@ -1871,9 +1871,6 @@ void ofxTrueTypeFontUL2::Impl::drawChar(int c, float x, float y){
 	glPushAttrib(GL_COLOR_BUFFER_BIT);
 	#else
 	blend_enabled = glIsEnabled(GL_BLEND);
-	texture_2d_enabled = glIsEnabled(GL_TEXTURE_2D);
-	glGetIntegerv(GL_BLEND_SRC, &blend_src);
-	glGetIntegerv(GL_BLEND_DST, &blend_dst);
 	#endif
 	// (b) enable our regular ALPHA blending!
 
@@ -1930,10 +1927,7 @@ void ofxTrueTypeFontUL2::Impl::drawChar(int c, float x, float y){
 	if(!blend_enabled){
 		glDisable(GL_BLEND);
 	}
-	if(!texture_2d_enabled){
-		glDisable(GL_TEXTURE_2D);
-	}
-	glBlendFunc(blend_src, blend_dst);
+	// glBlendFunc(blend_src, blend_dst);
 	#endif
 }
 // -----------------------------------------------------------
