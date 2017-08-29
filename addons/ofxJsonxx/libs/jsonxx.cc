@@ -193,12 +193,48 @@ bool parse_identifier(std::istream& input, String& value) {
 
 bool parse_number(std::istream& input, Number& value) {
     input >> std::ws;
-    input >> value;
-    if (input.fail()) {
-        input.clear();
-        return false;
-    }
-    return true;
+    char digits[10] = {'0','1','2','3','4','5','6','7','8','9'};
+	size_t bI = 0;
+	int left = 0;
+	int right = 0;
+	bool hasDecimal = false;
+	
+	char ch;
+	while(input && !input.eof()){
+		ch = input.peek();
+		bool matchedDigit = false;
+		for(size_t i = 0; i < 10; i++){
+			if(ch == digits[i]){
+				if(hasDecimal){
+					right = (right * 10) + i;
+				}
+				else {
+					left = (left * 10) + i;
+				}
+				matchedDigit = true;
+				input.get();
+				bI++;
+				break;
+			}
+		}
+		if(matchedDigit)continue;
+		if(bI > 0 && ch == '.' && hasDecimal == false){
+			hasDecimal = true;
+			input.get();
+			bI++;
+		}
+		else {
+			break;
+		}
+	}
+	
+	if(bI > 0){
+		value = left + right * pow(10.0,log10(right) + 1);
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 bool parse_bool(std::istream& input, Boolean& value) {
