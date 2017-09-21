@@ -140,7 +140,7 @@ PLATFORM_CFLAGS += -mssse3
 PLATFORM_CFLAGS += -fmessage-length=0
 
 PLATFORM_CXXFLAGS += -x objective-c++
-PLATFORM_CXXFLAGS += -std=c++11
+PLATFORM_CXXFLAGS += -std=c++14
 
 ifeq ($(USE_GST),1)
 	PLATFORM_CFLAGS += -I/Library/Frameworks/Gstreamer.framework/Headers
