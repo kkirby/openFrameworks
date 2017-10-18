@@ -198,6 +198,7 @@ bool parse_number(std::istream& input, Number& value) {
 	int left = 0;
 	int right = 0;
 	bool hasDecimal = false;
+	bool isNegative = false;
 	
 	char ch;
 	while(input && !input.eof()){
@@ -222,13 +223,18 @@ bool parse_number(std::istream& input, Number& value) {
 			hasDecimal = true;
 			input.get();
 			bI++;
-		}
-		else {
+		} else if(bI == 0 && ch == '-') {
+			isNegative = true;
+			input.get();
+		} else {
 			break;
 		}
 	}
 	
 	if(bI > 0){
+		if (isNegative) {
+			left = 0 - left;
+		}
 		value = left + right * pow(10.0,log10(right) + 1);
 		return true;
 	}
