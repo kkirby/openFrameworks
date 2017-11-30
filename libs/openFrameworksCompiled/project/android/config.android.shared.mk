@@ -397,21 +397,30 @@ PLATFORM_CXX=$(ANDROID_BIN)/$(ANDROID_PREFIX)g++
 PLATFORM_AR=$(ANDROID_BIN)/$(ANDROID_PREFIX)ar
 
 ifeq ($(HOST_PLATFORM),windows)
-	ANDROID_EXEC = cmd //c $(SDK_ROOT)/tools/android.bat
+	ANDROID_EXEC = cmd //c android-library
 	ZIP_EXEC = cmd //c $(subst /,\\,$(OF_LIBS_PATH)/openFrameworksCompiled/project/android/windows/zip)
 else
-	ANDROID_EXEC = $(SDK_ROOT)/tools/android
+	ANDROID_EXEC = android-library
 	ZIP_EXEC = zip
 endif
 
 afterplatform:
-	@$(ANDROID_EXEC) update project --target $(SDK_TARGET) --path "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"
+	@which "$(ANDROID_EXEC)" > /dev/null; \
+	if [[ $$? != 0 ]]; then \
+		echo ""; \
+		echo "[ERROR] $(ANDROID_EXEC) cannot be found in your path. This is needed to finish compliation."; \
+		echo "[ERROR] Please install it via:"; \
+		echo "[ERROR]     npm install -g https://github.com/kkirby/android-library.git"; \
+		echo ""; \
+		exit 1; \
+	fi
+	@$(ANDROID_EXEC) update --target $(SDK_TARGET) --path "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"
 	@if [ ! -d "$(ANDROID_FRAMEWORK_OUTPUT)" ]; then \
 		echo "Creating lib project."; \
-		$(ANDROID_EXEC) create lib-project -t $(SDK_TARGET) -n $(APPNAME) -k $(PROJECT_BUNDLE_ID) -p $(ANDROID_FRAMEWORK_OUTPUT); \
+		$(ANDROID_EXEC) create -t $(SDK_TARGET) -n $(APPNAME) -k $(PROJECT_BUNDLE_ID) -p $(ANDROID_FRAMEWORK_OUTPUT) -s $(SDK_ROOT); \
 	else \
 		echo "Updating lib project."; \
-		$(ANDROID_EXEC) update lib-project -t $(SDK_TARGET) -p $(ANDROID_FRAMEWORK_OUTPUT); \
+		$(ANDROID_EXEC) update -t $(SDK_TARGET) -p $(ANDROID_FRAMEWORK_OUTPUT) -s $(SDK_ROOT); \
 	fi
 	@rm "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
 	@echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
