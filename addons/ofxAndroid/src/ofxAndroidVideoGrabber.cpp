@@ -11,6 +11,7 @@
 #include "ofAppRunner.h"
 #include "ofUtils.h"
 #include "ofVideoGrabber.h"
+#include "ofMatrix4x4.h"
 
 struct ofxAndroidVideoGrabber::Data{
 	bool bIsFrameNew;
