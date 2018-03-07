@@ -73,14 +73,6 @@ ifndef $(GCC_VERSION)
 	GCC_VERSION = 4.9
 endif
 
-ifndef ANDROID_LIB_OUTPUT_PATH
-	ANDROID_LIB_OUTPUT_PATH = libs
-endif
-
-ifndef ANDROID_FRAMEWORK_OUTPUT_PATH 
-	ANDROID_FRAMEWORK_OUTPUT_PATH = output/$(BIN_NAME)
-endif
-ANDROID_FRAMEWORK_OUTPUT = $(ANDROID_FRAMEWORK_OUTPUT_PATH)/$(APPNAME)
 
 ifeq ($(ABI),x86)
 ANDROID_PREFIX=i686-linux-android-
@@ -121,26 +113,26 @@ RESFILE=$(RESNAME).zip
 
 ifeq ($(ABI),armv7)
 	ABI_PATH = armeabi-v7a
-	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
-	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp.so
 endif
 
 ifeq ($(ABI),armv5)
 	ABI_PATH = armeabi
-	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
-	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp.so
 endif
 
 ifeq ($(ABI),neon)
 	ABI_PATH = armeabi-v7a
-	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_neon.so
-	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_neon.so
+	PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp_neon.so
+	PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp_neon.so
 endif
 
 ifeq ($(ABI),x86)
 	ABI_PATH = x86
-    PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_x86.so
-    PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_LIB_OUTPUT_PATH)/$(ABI_PATH)/libOFAndroidApp_x86.so
+    PLATFORM_PROJECT_RELEASE_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp_x86.so
+    PLATFORM_PROJECT_DEBUG_TARGET = $(ANDROID_INSTALL_PREFIX)/jniLibs/$(ABI_PATH)/libOFAndroidApp_x86.so
 endif
 
 PLATFORM_CORELIB_RELEASE_TARGET = $(OF_CORE_LIB_PATH)/$(ABI)/libopenFrameworks.a
@@ -299,7 +291,7 @@ PROJECT_EXCLUSIONS += ./res
 PROJECT_EXCLUSIONS += ./res/%
 PROJECT_EXCLUSIONS += ./assets
 PROJECT_EXCLUSIONS += ./assets/%
-PROJECT_EXCLUSIONS += $(ANDROID_LIB_OUTPUT_PATH)
+PROJECT_EXCLUSIONS += $(ANDROID_INSTALL_PREFIX)/jniLibs
 
 ################################################################################
 # PLATFORM HEADER SEARCH PATHS
@@ -397,86 +389,29 @@ PLATFORM_CXX=$(ANDROID_BIN)/$(ANDROID_PREFIX)g++
 PLATFORM_AR=$(ANDROID_BIN)/$(ANDROID_PREFIX)ar
 
 ifeq ($(HOST_PLATFORM),windows)
-	ANDROID_EXEC = cmd //c android-library
 	ZIP_EXEC = cmd //c $(subst /,\\,$(OF_LIBS_PATH)/openFrameworksCompiled/project/android/windows/zip)
 else
-	ANDROID_EXEC = android-library
 	ZIP_EXEC = zip
 endif
 
 afterplatform:
-	@which "$(ANDROID_EXEC)" > /dev/null; \
-	if [[ $$? != 0 ]]; then \
-		echo ""; \
-		echo "[ERROR] $(ANDROID_EXEC) cannot be found in your path. This is needed to finish compliation."; \
-		echo "[ERROR] Please install it via:"; \
-		echo "[ERROR]     npm install -g https://github.com/kkirby/android-library.git"; \
-		echo ""; \
-		exit 1; \
-	fi
-	@$(ANDROID_EXEC) update --target $(SDK_TARGET) --path "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"
-	@if [ ! -d "$(ANDROID_FRAMEWORK_OUTPUT)" ]; then \
-		echo "Creating lib project."; \
-		$(ANDROID_EXEC) create -t $(SDK_TARGET) -n $(APPNAME) -k $(PROJECT_BUNDLE_ID) -p $(ANDROID_FRAMEWORK_OUTPUT) -s $(SDK_ROOT); \
-	else \
-		echo "Updating lib project."; \
-		$(ANDROID_EXEC) update -t $(SDK_TARGET) -p $(ANDROID_FRAMEWORK_OUTPUT) -s $(SDK_ROOT); \
-	fi
-	@rm "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "\tpackage=\"$(PROJECT_BUNDLE_ID)\"" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "\tandroid:versionCode=\"$(PROJECT_VERSION_CODE)\"" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "\tandroid:versionName=\"$(PROJECT_CURRENT_VERSION)\">" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
-	@echo "</manifest>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/AndroidManifest.xml"
 	
-	@if [ -f "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml" ]; then \
-		rm "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"; \
-	fi
-	@echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
-	@echo "<RelativeLayout android:id=\"@+id/relativeLayout1\" android:layout_width=\"fill_parent\" android:layout_height=\"fill_parent\" xmlns:android=\"http://schemas.android.com/apk/res/android\">" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
-	@echo "	<cc.openframeworks.OFGLSurfaceView android:id=\"@+id/of_gl_surface\"" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
-	@echo "		android:layout_width=\"fill_parent\"" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
-	@echo "		android:layout_height=\"fill_parent\"/>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
-	@echo "</RelativeLayout>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/layout/main_layout.xml"
 	
-	@if [ -f "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml" ]; then \
-		rm "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml"; \
-	fi
-	@echo "<resources>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml"
-	@echo "\t<style name=\"AppBaseTheme\" parent=\"android:Theme.Light\"/>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml"
-	@echo "\t<style name=\"AppTheme\" parent=\"AppBaseTheme\"/>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml"
-	@echo "</resources>" >> "$(ANDROID_FRAMEWORK_OUTPUT)/res/values/styles.xml"
-	
-	@if [ -d "javaLibs" ]; then \
-		sed -i.bak '/android\.library\.reference\./d' "$(ANDROID_FRAMEWORK_OUTPUT)/project.properties"; \
-		rm "$(ANDROID_FRAMEWORK_OUTPUT)/project.properties.bak"; \
-		PROJ_REF=1; \
-		for f in javaLibs/*; \
-		do \
-			echo "android.library.reference.$${PROJ_REF}=$${f}" >> "$(ANDROID_FRAMEWORK_OUTPUT)/project.properties"; \
-			let PROJ_REF+=1; \
-			android update lib-project -t $(SDK_TARGET) -p "$${f}"; \
-		done; \
-		rm -rf "$(ANDROID_FRAMEWORK_OUTPUT)/javaLibs"; \
-		cp -r "javaLibs" "$(ANDROID_FRAMEWORK_OUTPUT)/javaLibs"; \
-	fi
 	@echo "Copying ofAndroidLib";
-	@cp -r "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib/src/cc" "$(ANDROID_FRAMEWORK_OUTPUT)/src/";
-	@rm -rf "$(ANDROID_FRAMEWORK_OUTPUT)/libs"
-	@cp -r "$(ANDROID_LIB_OUTPUT_PATH)" "$(ANDROID_FRAMEWORK_OUTPUT)/libs"
+	@cp -r "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib/src/cc" "$(ANDROID_INSTALL_PREFIX)/java/";
 	@if [ -d "bin/data" ]; then \
 		echo "Archiving data."; \
-		mkdir -p "$(ANDROID_FRAMEWORK_OUTPUT)/res/raw"; \
-		if [ -f "$(ANDROID_FRAMEWORK_OUTPUT)/res/raw/$(RESNAME).zip" ]; then \
-			rm "$(ANDROID_FRAMEWORK_OUTPUT)/res/raw/$(RESNAME).zip"; \
+		mkdir -p "$(ANDROID_INSTALL_PREFIX)/res/raw"; \
+		if [ -f "$(ANDROID_INSTALL_PREFIX)/res/raw/$(RESNAME).zip" ]; then \
+			rm "$(ANDROID_INSTALL_PREFIX)/res/raw/$(RESNAME).zip"; \
 		fi; \
 		cd bin/data; \
-		$(ZIP_EXEC) -r "../../$(ANDROID_FRAMEWORK_OUTPUT)/res/raw/$(RESNAME).zip" *; \
+		$(ZIP_EXEC) -r "__ANDROID_RESOURCES__.zip" *; \
+		mv "__ANDROID_RESOURCES__" "$(ANDROID_INSTALL_PREFIX)/$(RESNAME).zip"; \
 	fi
 	@if [ -d "javaSrc" ]; then \
 		echo "Copying java src."; \
-		cp -r javaSrc/* "$(ANDROID_FRAMEWORK_OUTPUT)/src/"; \
+		cp -r javaSrc/* "$(ANDROID_INSTALL_PREFIX)/java/"; \
 	fi
 	
 ifdef PROJECT_AFTER_ANDROID
