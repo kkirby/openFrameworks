@@ -406,8 +406,8 @@ afterplatform:
 			rm "$(ANDROID_INSTALL_PREFIX)/res/raw/$(RESNAME).zip"; \
 		fi; \
 		cd bin/data; \
-		$(ZIP_EXEC) -r "__ANDROID_RESOURCES__.zip" *; \
-		mv "__ANDROID_RESOURCES__" "$(ANDROID_INSTALL_PREFIX)/$(RESNAME).zip"; \
+		$(ZIP_EXEC) -r "ANDROID_RESOURCES.zip" *; \
+		mv "ANDROID_RESOURCES.zip" "$(ANDROID_INSTALL_PREFIX)/res/raw/$(RESNAME).zip"; \
 	fi
 	@if [ -d "javaSrc" ]; then \
 		echo "Copying java src."; \
