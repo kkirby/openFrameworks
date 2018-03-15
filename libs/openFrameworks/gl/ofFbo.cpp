@@ -462,9 +462,9 @@ bool ofFbo::checkGLSupport() {
 	
 	if (!ofIsGLProgrammableRenderer()){
 		if(ofGLCheckExtension("GL_EXT_framebuffer_object")){
-			ofLogVerbose("ofFbo") << "GL frame buffer object supported";
+			//ofLogVerbose("ofFbo") << "GL frame buffer object supported";
 		}else{
-			ofLogError("ofFbo") << "GL frame buffer object not supported by this graphics card";
+			//ofLogError("ofFbo") << "GL frame buffer object not supported by this graphics card";
 			return false;
 		}
 	}
@@ -480,7 +480,7 @@ bool ofFbo::checkGLSupport() {
 #else
 
 	if(ofIsGLProgrammableRenderer() || ofGLCheckExtension("GL_OES_framebuffer_object")){
-		ofLogVerbose("ofFbo") << "GL frame buffer object supported";
+		//ofLogVerbose("ofFbo") << "GL frame buffer object supported";
 	}else{
 		ofLogError("ofFbo") << "GL frame buffer object not supported by this graphics card";
 		return false;
@@ -1084,7 +1084,7 @@ bool ofFbo::checkStatus() const {
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	switch(status) {
 		case GL_FRAMEBUFFER_COMPLETE:
-			ofLogVerbose("ofFbo") << "FRAMEBUFFER_COMPLETE - OK";
+			//ofLogVerbose("ofFbo") << "FRAMEBUFFER_COMPLETE - OK";
 			return true;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
 			ofLogError("ofFbo") << "FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
