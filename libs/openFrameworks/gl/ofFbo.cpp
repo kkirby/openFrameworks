@@ -473,10 +473,10 @@ bool ofFbo::checkGLSupport() {
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &_maxDrawBuffers);
 	glGetIntegerv(GL_MAX_SAMPLES, &_maxSamples);
 
-	ofLogVerbose("ofFbo") << "checkGLSupport(): "
+	/*ofLogVerbose("ofFbo") << "checkGLSupport(): "
                           << "maxColorAttachments: " << _maxColorAttachments << ", "
                           << "maxDrawBuffers: " << _maxDrawBuffers << ", "
-                          << "maxSamples: " << _maxSamples;
+                          << "maxSamples: " << _maxSamples;*/
 #else
 
 	if(ofIsGLProgrammableRenderer() || ofGLCheckExtension("GL_OES_framebuffer_object")){
