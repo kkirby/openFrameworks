@@ -449,15 +449,11 @@ ofMesh ofBitmapFont::getMesh(const string & text, int x, int y, ofDrawBitmapMode
 }
 
 ofBitmapFont::ofBitmapFont(){
-#ifdef TARGET_ANDROID
-	ofAddListener(ofxAndroidEvents().unloadGL,this,&ofBitmapFont::unloadTexture);
-#endif
+
 }
 
 ofBitmapFont::~ofBitmapFont(){
-#ifdef TARGET_ANDROID
-	ofAddListener(ofxAndroidEvents().reloadGL,this,&ofBitmapFont::unloadTexture);
-#endif
+
 }
 
 void ofBitmapFont::unloadTexture(){
