@@ -6,7 +6,7 @@ extern "C" {
   void *__dso_handle;
 }
 
-extern int atexit (void (*func)(void)) noexcept;
+extern int atexit (void (*func)(void));
 int atexit (void (*func)(void)){
 	return 0;
 }
